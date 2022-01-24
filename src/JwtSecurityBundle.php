@@ -16,6 +16,8 @@
 
 namespace RM\Bundle\JwtSecurityBundle;
 
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\TokenExtractorPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -27,4 +29,11 @@ class JwtSecurityBundle extends Bundle
 
     public const PUBLIC_KEY_PARAMETER = JwtSecurityBundle::NAME . '.public_key';
     public const PRIVATE_KEY_PARAMETER = JwtSecurityBundle::NAME . '.private_key';
+
+    public const TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
+
+    public function build(ContainerBuilder $container): void
+    {
+        $container->addCompilerPass(new TokenExtractorPass(self::TAG_TOKEN_EXTRACTOR));
+    }
 }

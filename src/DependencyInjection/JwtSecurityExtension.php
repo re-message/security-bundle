@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
+use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HS256;
 use Symfony\Component\Config\FileLocator;
@@ -47,5 +48,9 @@ class JwtSecurityExtension extends Extension
 
         $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
         $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
+
+        $container
+            ->registerForAutoconfiguration(TokenExtractorInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_TOKEN_EXTRACTOR);
     }
 }
