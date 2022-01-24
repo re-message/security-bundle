@@ -1,0 +1,56 @@
+{
+    "name": "relmsg/security-bundle",
+    "description": "Security Bundle via Json Web Token",
+    "type": "symfony-bundle",
+    "license": "Apache-2.0",
+    "homepage": "https://dev.relmsg.ru/security-bundle",
+    "authors": [
+        {
+            "name": "Oleg Kozlov",
+            "email": "h1karo@relmsg.ru",
+            "homepage": "https://rel.ms/h1karo",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RM\\Bundle\\JwtSecurityBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RM\\Bundle\\JwtSecurityBundle\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+
+        "relmsg/json-web-token": "^0.1.0",
+
+        "symfony/framework-bundle": "^6.0",
+        "symfony/console": "^6.0",
+        "symfony/security-bundle": "^6.0",
+        "symfony/monolog-bundle": "^3.5",
+        "symfony/yaml": "^6.0",
+        "symfony/event-dispatcher": "^6.0",
+        "symfony/deprecation-contracts": "^3.0",
+
+        "laminas/laminas-math": "^3.2",
+        "doctrine/annotations": "^1.8"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^6.0",
+        "symfony/dotenv": "^6.0",
+        "symfony/browser-kit": "^6.0",
+        "symfony/twig-bundle": "^6.0",
+        "symfony/twig-bridge": "^6.0",
+        "symfony/web-profiler-bundle": "^6.0",
+        "twig/twig": "^3.0",
+
+        "predis/predis": "^1.1",
+
+        "roave/security-advisories": "dev-latest"
+    }
+}
