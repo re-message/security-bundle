@@ -39,20 +39,13 @@ class JwtSecurityExtension extends Extension
 
         $phpLoader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $phpLoader->load('listeners.php');
+        $phpLoader->load('extractors.php');
 
-        $this->loadAlgorithms($phpLoader);
-
-        $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
-        $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function loadAlgorithms(PhpFileLoader $phpLoader): void
-    {
         if (class_exists(HS256::class)) {
             $phpLoader->load('algorithms/hmac.php');
         }
+
+        $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
+        $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
     }
 }
