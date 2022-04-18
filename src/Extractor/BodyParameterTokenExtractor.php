@@ -34,7 +34,12 @@ class BodyParameterTokenExtractor extends AbstractTokenExtractor
 
     public function extract(Request $request): ?string
     {
-        return $request->request->get($this->parameterName);
+        $parameter = $request->request->get($this->parameterName);
+        if (null === $parameter) {
+            return null;
+        }
+
+        return (string) $parameter;
     }
 
     public function supports(Request $request): bool
