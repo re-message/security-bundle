@@ -27,7 +27,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
 
-        "relmsg/json-web-token": "^0.1.0",
+        "relmsg/json-web-token": "^0.2.3",
 
         "symfony/framework-bundle": "^6.0",
         "symfony/event-dispatcher": "^6.0",
