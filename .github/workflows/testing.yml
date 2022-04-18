@@ -1,0 +1,56 @@
+name: Testing
+
+on:
+  push:
+    branches: [ release ]
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  testing:
+    name: Backend testing on PHP 8.1
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring
+          ini-values: opcache.jit_buffer_size=256M, opcache.jit=1235, pcre.jit=1
+          coverage: pcov
+
+      - name: Setup problem matchers for PHP
+        run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPUnit tests
+        run: |
+          php vendor/bin/phpunit \
+          --coverage-text \
+          --coverage-html=coverage/phpunit/html \
+          --coverage-clover=coverage/phpunit/clover.xml
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Coverage report
+          path: coverage
