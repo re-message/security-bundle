@@ -8,9 +8,6 @@ composer.lock
 ###> symfony/phpunit-bridge ###
 .phpunit
 .phpunit.result.cache
+/coverage/
 ###< symfony/phpunit-bridge ###
 
-###> phpunit ###
-/.phpunit.result.cache
-/coverage/
-###< phpunit ###
