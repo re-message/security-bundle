@@ -37,9 +37,12 @@ class JwtSecurityExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $phpLoader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
+        $fileLocator = new FileLocator(__DIR__ . '/../../config');
+        $phpLoader = new PhpFileLoader($container, $fileLocator);
+
         $phpLoader->load('listeners.php');
         $phpLoader->load('extractors.php');
+        $phpLoader->load('validators.php');
 
         if (class_exists(HMAC::class)) {
             $phpLoader->load('algorithms/hmac.php');
