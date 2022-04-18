@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle;
 
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\TokenExtractorPass;
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\ValidatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -36,5 +37,6 @@ class JwtSecurityBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new TokenExtractorPass(self::TAG_TOKEN_EXTRACTOR));
+        $container->addCompilerPass(new ValidatorPass(self::TAG_TOKEN_VALIDATOR));
     }
 }
