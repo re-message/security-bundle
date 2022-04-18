@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * @author Oleg Kozlov <h1karo@outlook.com>
+ * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
 class TokenExtractorPass implements CompilerPassInterface
 {

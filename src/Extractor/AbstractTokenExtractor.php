@@ -20,7 +20,7 @@ use RM\Bundle\JwtSecurityBundle\Switchable;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @author Oleg Kozlov <h1karo@outlook.com>
+ * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
 abstract class AbstractTokenExtractor extends Switchable implements TokenExtractorInterface
 {

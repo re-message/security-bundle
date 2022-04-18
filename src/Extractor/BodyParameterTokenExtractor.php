@@ -19,7 +19,7 @@ namespace RM\Bundle\JwtSecurityBundle\Extractor;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @author Oleg Kozlov <h1karo@outlook.com>
+ * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
 class BodyParameterTokenExtractor extends AbstractTokenExtractor
 {
