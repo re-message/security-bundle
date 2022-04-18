@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 class ChainTokenExtractor implements TokenExtractorInterface
 {
     /**
-     * @var Collection<TokenExtractorInterface>
+     * @var Collection<int, TokenExtractorInterface>
      */
     private Collection $extractors;
 
