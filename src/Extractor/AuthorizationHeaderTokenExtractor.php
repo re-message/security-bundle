@@ -48,7 +48,7 @@ class AuthorizationHeaderTokenExtractor extends AbstractTokenExtractor
 
         $parts = explode(' ', $header);
 
-        if (count($parts) !== 2 || strcasecmp($parts[0], $this->prefix) !== 0) {
+        if (2 !== count($parts) || 0 !== strcasecmp($parts[0], $this->prefix)) {
             return null;
         }
 
