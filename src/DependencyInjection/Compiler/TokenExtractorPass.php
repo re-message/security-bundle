@@ -26,11 +26,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class TokenExtractorPass implements CompilerPassInterface
 {
-    private string $tokenExtractorTag;
-
-    public function __construct(string $tokenExtractorTag)
-    {
-        $this->tokenExtractorTag = $tokenExtractorTag;
+    public function __construct(
+        private readonly string $tokenExtractorTag
+    ) {
     }
 
     /**

@@ -26,13 +26,10 @@ class AuthorizationHeaderTokenExtractor extends AbstractTokenExtractor
     public const HEADER = 'Authorization';
     public const PREFIX = 'Bearer';
 
-    private string $name;
-    private string $prefix;
-
-    public function __construct(string $name = self::HEADER, string $prefix = self::PREFIX)
-    {
-        $this->name = $name;
-        $this->prefix = $prefix;
+    public function __construct(
+        private readonly string $name = self::HEADER,
+        private readonly string $prefix = self::PREFIX,
+    ) {
     }
 
     public function extract(Request $request): ?string

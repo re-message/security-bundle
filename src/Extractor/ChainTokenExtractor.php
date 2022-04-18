@@ -28,7 +28,7 @@ class ChainTokenExtractor implements TokenExtractorInterface
     /**
      * @var Collection<int, TokenExtractorInterface>
      */
-    private Collection $extractors;
+    private readonly Collection $extractors;
 
     public function __construct(array $extractors = [])
     {
@@ -41,7 +41,7 @@ class ChainTokenExtractor implements TokenExtractorInterface
 
     public function pushExtractor(TokenExtractorInterface $extractor): void
     {
-        $this->extractors[] = $extractor;
+        $this->extractors->add($extractor);
     }
 
     public function extract(Request $request): ?string

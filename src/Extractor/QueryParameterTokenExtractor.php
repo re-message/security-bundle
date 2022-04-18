@@ -25,11 +25,9 @@ class QueryParameterTokenExtractor extends AbstractTokenExtractor
 {
     public const QUERY_PARAMETER = 'token';
 
-    private string $parameterName;
-
-    public function __construct(string $name = self::QUERY_PARAMETER)
-    {
-        $this->parameterName = $name;
+    public function __construct(
+        private readonly string $parameterName = self::QUERY_PARAMETER
+    ) {
     }
 
     public function extract(Request $request): ?string

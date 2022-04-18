@@ -25,11 +25,9 @@ class BodyParameterTokenExtractor extends AbstractTokenExtractor
 {
     public const PARAMETER = 'token';
 
-    private string $parameterName;
-
-    public function __construct(string $name = self::PARAMETER)
-    {
-        $this->parameterName = $name;
+    public function __construct(
+        private readonly string $parameterName = self::PARAMETER
+    ) {
     }
 
     public function extract(Request $request): ?string
