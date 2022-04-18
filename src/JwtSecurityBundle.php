@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle;
 
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyValidatorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\TokenExtractorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\ValidatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -33,10 +34,12 @@ class JwtSecurityBundle extends Bundle
 
     public const TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
     public const TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
+    public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
 
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new TokenExtractorPass(self::TAG_TOKEN_EXTRACTOR));
         $container->addCompilerPass(new ValidatorPass(self::TAG_TOKEN_VALIDATOR));
+        $container->addCompilerPass(new PropertyValidatorPass(self::TAG_PROPERTY_VALIDATOR));
     }
 }
