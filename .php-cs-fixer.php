@@ -3,9 +3,11 @@
 $finder = PhpCsFixer\Finder::create()
     ->in('src')
     ->in('tests')
+    ->append([__FILE__])
 ;
 
 $config = new PhpCsFixer\Config();
+
 return $config
     ->setRules(
         [
