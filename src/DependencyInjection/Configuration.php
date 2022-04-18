@@ -29,12 +29,12 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(JwtSecurityBundle::NAME);
+
         $root = $treeBuilder->getRootNode();
-        $root
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->append($this->getKeysNode())
-            ->end();
+        $root->addDefaultsIfNotSet();
+
+        $children = $root->children();
+        $children->append($this->getKeysNode());
 
         return $treeBuilder;
     }
@@ -42,19 +42,24 @@ class Configuration implements ConfigurationInterface
     private function getKeysNode(): NodeDefinition
     {
         $builder = new TreeBuilder('keys');
+
         $node = $builder->getRootNode();
-        $node
-            ->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('public')
-                    ->defaultValue('%env(file:resolve:JWT_PUBLIC_KEY)%')
-                    ->cannotBeEmpty()
-                ->end()
-                ->scalarNode('private')
-                    ->defaultValue('%env(file:resolve:JWT_PRIVATE_KEY)%')
-                    ->cannotBeEmpty()
-                ->end()
-            ->end();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $publicKey = $children->scalarNode('public');
+        $publicKey
+            ->defaultValue('%env(file:resolve:JWT_PUBLIC_KEY)%')
+            ->cannotBeEmpty()
+        ;
+
+        $privateKey = $children->scalarNode('private');
+        $privateKey
+            ->defaultValue('%env(file:resolve:JWT_PRIVATE_KEY)%')
+            ->cannotBeEmpty()
+        ;
+
         return $node;
     }
 }
