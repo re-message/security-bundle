@@ -20,5 +20,4 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 interface SubjectInterface extends UserInterface, IdentifiableInterface
 {
-
 }

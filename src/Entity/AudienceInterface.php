@@ -18,5 +18,4 @@ namespace RM\Bundle\JwtSecurityBundle\Entity;
 
 interface AudienceInterface extends IdentifiableInterface
 {
-
 }
