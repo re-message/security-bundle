@@ -21,6 +21,7 @@ jobs:
           extensions: mbstring
           ini-values: opcache.jit_buffer_size=256M, opcache.jit=1235, pcre.jit=1
           coverage: pcov
+          tools: cs2pr
 
       - name: Setup problem matchers for PHP
         run: echo "::add-matcher::${{ runner.tool_cache }}/php.json"
@@ -42,6 +43,14 @@ jobs:
       - name: Install dependencies
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHP CS Fixer
+        run: |
+          php vendor/bin/php-cs-fixer fix \
+          --format=checkstyle \
+          --dry-run \
+          --diff \
+          | cs2pr
 
       - name: PHP Security Checker
         uses: StephaneBour/actions-php-security-checker@1.2
