@@ -18,7 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
-use RM\Standard\Jwt\Algorithm\Signature\HMAC\HS256;
+use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -41,7 +41,7 @@ class JwtSecurityExtension extends Extension
         $phpLoader->load('listeners.php');
         $phpLoader->load('extractors.php');
 
-        if (class_exists(HS256::class)) {
+        if (class_exists(HMAC::class)) {
             $phpLoader->load('algorithms/hmac.php');
         }
 
