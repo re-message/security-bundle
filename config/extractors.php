@@ -5,6 +5,7 @@ use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
+use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container) {
@@ -15,6 +16,11 @@ return static function (ContainerConfigurator $container) {
         ->private()
         ->autowire()
         ->autoconfigure();
+
+    $services
+        ->instanceof(TokenExtractorInterface::class)
+        ->tag(JwtSecurityBundle::TAG_TOKEN_EXTRACTOR)
+    ;
 
     $services
         ->set(ChainTokenExtractor::class)
