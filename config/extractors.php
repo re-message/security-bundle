@@ -8,14 +8,15 @@ use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $defaults = $services->defaults();
     $defaults
         ->private()
         ->autowire()
-        ->autoconfigure();
+        ->autoconfigure()
+    ;
 
     $services
         ->instanceof(TokenExtractorInterface::class)
@@ -24,7 +25,8 @@ return static function (ContainerConfigurator $container) {
 
     $services
         ->set(ChainTokenExtractor::class)
-        ->public();
+        ->public()
+    ;
 
     $services
         ->alias(TokenExtractorInterface::class, ChainTokenExtractor::class)

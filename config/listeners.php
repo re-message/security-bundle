@@ -2,16 +2,17 @@
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $defaults = $services->defaults();
     $defaults
         ->private()
-        ->autowire();
+        ->autowire()
+    ;
 
     $services
         ->load('RM\\Bundle\\JwtSecurityBundle\\EventListener\\', '../src/EventListener/*')
-            ->tag('kernel.event_listener')
+        ->tag('kernel.event_listener')
     ;
 };

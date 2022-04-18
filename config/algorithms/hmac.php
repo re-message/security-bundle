@@ -6,11 +6,13 @@ use RM\Standard\Jwt\Algorithm\Signature\HMAC\HS3512;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HS512;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
     $defaults = $services->defaults();
-    $defaults->public();
+    $defaults
+        ->public()
+    ;
 
     $services
         ->set(HS256::class)
