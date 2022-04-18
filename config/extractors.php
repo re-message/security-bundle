@@ -39,11 +39,11 @@ return static function (ContainerConfigurator $container): void {
 
     $services
         ->set(ChainTokenExtractor::class)
-        ->public()
     ;
 
     $services
         ->alias(TokenExtractorInterface::class, ChainTokenExtractor::class)
+        ->public()
     ;
 
     $services
