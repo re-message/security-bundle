@@ -37,11 +37,11 @@ class AuthorizationHeaderTokenExtractor extends AbstractTokenExtractor
 
     public function extract(Request $request): ?string
     {
-        if (!$request->headers->has($this->name)) {
+        $header = $request->headers->get($this->name);
+        if (null === $header) {
             return null;
         }
 
-        $header = $request->headers->get($this->name);
         if (empty($this->prefix)) {
             return $header;
         }
