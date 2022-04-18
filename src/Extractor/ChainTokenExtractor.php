@@ -46,8 +46,7 @@ class ChainTokenExtractor implements TokenExtractorInterface
 
     public function extract(Request $request): ?string
     {
-        $extractor = $this->findExtractor($request);
-        return $extractor ? $extractor->extract($request) : null;
+        return $this->findExtractor($request)?->extract($request);
     }
 
     public function supports(Request $request): bool
