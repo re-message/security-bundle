@@ -15,8 +15,8 @@
  */
 
 $finder = PhpCsFixer\Finder::create()
-    ->in('src')
-    ->in('tests')
+    ->in(__DIR__)
+    ->exclude('vendor')
     ->append([__FILE__])
 ;
 
