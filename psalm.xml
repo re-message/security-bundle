@@ -12,6 +12,20 @@
         </ignoreFiles>
     </projectFiles>
 
+    <issueHandlers>
+        <PossiblyNullReference>
+            <errorLevel type="suppress">
+                <file name="src/DependencyInjection/Configuration.php" />
+            </errorLevel>
+        </PossiblyNullReference>
+
+        <PossiblyUndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/DependencyInjection/Configuration.php" />
+            </errorLevel>
+        </PossiblyUndefinedMethod>
+    </issueHandlers>
+
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
