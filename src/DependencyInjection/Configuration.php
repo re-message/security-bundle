@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -35,11 +36,12 @@ class Configuration implements ConfigurationInterface
 
         $children = $root->children();
         $children->append($this->getKeysNode());
+        $children->append($this->getValidatorsNode());
 
         return $treeBuilder;
     }
 
-    private function getKeysNode(): NodeDefinition
+    protected function getKeysNode(): NodeDefinition
     {
         $builder = new TreeBuilder('keys');
 
@@ -61,5 +63,50 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $node;
+    }
+
+    protected function getValidatorsNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('validators');
+
+        $node = $builder->getRootNode();
+        $children = $node->children();
+        $children->append($this->getPropertyValidatorsNode());
+
+        return $node;
+    }
+
+    protected function getPropertyValidatorsNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('properties');
+
+        $node = $builder->getRootNode();
+        $node->performNoDeepMerging();
+
+        $prototype = $node->arrayPrototype();
+        $prototype->useAttributeAsKey('class');
+
+        $children = $prototype->children();
+
+        $class = $children->scalarNode('class');
+        $class->cannotBeEmpty();
+        $this->validateInstanceOf($class, PropertyValidatorInterface::class);
+
+        $arguments = $children->arrayNode('arguments');
+        $arguments->ignoreExtraKeys(false);
+
+        return $node;
+    }
+
+    protected function validateInstanceOf(NodeDefinition $node, string $class): void
+    {
+        $closure = fn ($value): bool => is_string($value) && !is_a($value, $class, true);
+        $path = $node->getNode()->getPath();
+        $message = sprintf('The value of "%s" key must implement "%s".', $path, $class);
+
+        $node->validate()
+            ->ifTrue($closure)
+            ->thenInvalid($message)
+        ;
     }
 }
