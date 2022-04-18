@@ -43,6 +43,9 @@ jobs:
         if: steps.composer-cache.outputs.cache-hit != 'true'
         run: composer install --prefer-dist --no-progress --no-suggest
 
+      - name: PHP Security Checker
+        uses: StephaneBour/actions-php-security-checker@1.2
+
       - name: Run PHPUnit tests
         run: |
           php vendor/bin/phpunit \
