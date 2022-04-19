@@ -19,6 +19,7 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
+use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -53,8 +54,20 @@ class JwtSecurityExtension extends Extension
         $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
         $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
 
-        $propertyValidatorConfigs = $config['property_validators'];
-        $this->registerPropertyValidators($container, $propertyValidatorConfigs);
+        $this->registerTokenStorage($container, $config['token_storage']);
+        $this->registerPropertyValidators($container, $config['property_validators']);
+    }
+
+    protected function registerTokenStorage(ContainerBuilder $container, array $config): void
+    {
+        $class = $config['class'];
+        $arguments = $config['arguments'] ?? [];
+        $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
+
+        $definition = $container->register($class);
+        $definition->setArguments($arguments);
+
+        $container->setAlias(TokenStorageInterface::class, $class);
     }
 
     protected function registerPropertyValidators(ContainerBuilder $container, array $configs): void

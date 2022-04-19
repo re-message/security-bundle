@@ -17,6 +17,8 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
+use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -37,6 +39,7 @@ class Configuration implements ConfigurationInterface
         $children = $root->children();
 
         $children->append($this->getKeysNode());
+        $children->append($this->getTokenStorageNode());
 
         $root->fixXmlConfig('property_validator');
         $children->append($this->getPropertyValidatorsNode());
@@ -64,6 +67,26 @@ class Configuration implements ConfigurationInterface
             ->defaultValue('%env(file:resolve:JWT_PRIVATE_KEY)%')
             ->cannotBeEmpty()
         ;
+
+        return $node;
+    }
+
+    protected function getTokenStorageNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('token_storage');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $class = $children->scalarNode('class');
+        $class->defaultValue(RuntimeTokenStorage::class);
+        $class->cannotBeEmpty();
+        $this->validateInstanceOf($class, TokenStorageInterface::class);
+
+        $arguments = $children->arrayNode('arguments');
+        $arguments->ignoreExtraKeys(false);
 
         return $node;
     }
