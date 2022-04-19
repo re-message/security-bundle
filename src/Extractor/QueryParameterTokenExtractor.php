@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
-class QueryParameterTokenExtractor extends AbstractTokenExtractor
+class QueryParameterTokenExtractor implements TokenExtractorInterface
 {
     public const QUERY_PARAMETER = 'token';
 
@@ -37,6 +37,6 @@ class QueryParameterTokenExtractor extends AbstractTokenExtractor
 
     public function supports(Request $request): bool
     {
-        return parent::supports($request) && $request->query->has($this->parameterName);
+        return $request->query->has($this->parameterName);
     }
 }

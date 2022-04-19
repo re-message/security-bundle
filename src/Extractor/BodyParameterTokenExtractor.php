@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
-class BodyParameterTokenExtractor extends AbstractTokenExtractor
+class BodyParameterTokenExtractor implements TokenExtractorInterface
 {
     public const PARAMETER = 'token';
 
@@ -42,6 +42,6 @@ class BodyParameterTokenExtractor extends AbstractTokenExtractor
 
     public function supports(Request $request): bool
     {
-        return parent::supports($request) && $request->request->has($this->parameterName);
+        return $request->request->has($this->parameterName);
     }
 }

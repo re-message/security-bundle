@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@relmsg.ru>
  */
-class AuthorizationHeaderTokenExtractor extends AbstractTokenExtractor
+class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
 {
     public const HEADER = 'Authorization';
     public const PREFIX = 'Bearer';
@@ -54,6 +54,6 @@ class AuthorizationHeaderTokenExtractor extends AbstractTokenExtractor
 
     public function supports(Request $request): bool
     {
-        return parent::supports($request) && $request->headers->has($this->name);
+        return $request->headers->has($this->name);
     }
 }
