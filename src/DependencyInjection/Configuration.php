@@ -74,7 +74,6 @@ class Configuration implements ConfigurationInterface
 
         $node = $builder->getRootNode();
         $node->performNoDeepMerging();
-        $node->useAttributeAsKey('class');
 
         $prototype = $node->arrayPrototype();
 
