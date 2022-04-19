@@ -94,7 +94,15 @@ class Configuration implements ConfigurationInterface
 
     protected function getPropertyValidatorsNode(): NodeDefinition
     {
-        $builder = new TreeBuilder('property_validators');
+        return $this->getServicesNode(
+            'property_validators',
+            PropertyValidatorInterface::class,
+        );
+    }
+
+    protected function getServicesNode(string $name, string $instanceOf): NodeDefinition
+    {
+        $builder = new TreeBuilder($name);
 
         $node = $builder->getRootNode();
         $prototype = $node->arrayPrototype();
@@ -103,7 +111,7 @@ class Configuration implements ConfigurationInterface
         $class = $children->scalarNode('class');
         $class->isRequired();
         $class->cannotBeEmpty();
-        $this->validateInstanceOf($class, PropertyValidatorInterface::class);
+        $this->validateInstanceOf($class, $instanceOf);
 
         $arguments = $children->arrayNode('arguments');
         $arguments->performNoDeepMerging();
