@@ -1,5 +1,6 @@
 <?php
 
+use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Standard\Jwt\Storage\RedisTokenStorage;
 use RM\Standard\Jwt\Validator\Property\ExpirationValidator;
 use RM\Standard\Jwt\Validator\Property\IdentifierValidator;
@@ -35,5 +36,9 @@ return static function (JwtSecurityConfig $config) {
     $config->propertyValidator()
         ->class(IssuerValidator::class)
         ->arguments(['issuers' => ['relmsg/security-bundle']])
+    ;
+
+    $config->tokenExtractor()
+        ->class(QueryParameterTokenExtractor::class)
     ;
 };
