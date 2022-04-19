@@ -29,6 +29,8 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
  */
 class JwtSecurityExtension extends Extension
 {
+    private const ARGUMENT_PREFIX = '$';
+
     /**
      * @throws Exception
      */
@@ -50,5 +52,28 @@ class JwtSecurityExtension extends Extension
 
         $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
         $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
+
+        $propertyValidatorConfigs = $config['property_validators'];
+        $this->registerPropertyValidators($container, $propertyValidatorConfigs);
+    }
+
+    protected function registerPropertyValidators(ContainerBuilder $container, array $configs): void
+    {
+        foreach ($configs as $config) {
+            $class = $config['class'];
+            $arguments = $config['arguments'] ?? [];
+            $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
+
+            $definition = $container->register($class);
+            $definition->setArguments($arguments);
+        }
+    }
+
+    protected function prefixKeys(array &$arguments, string $prefix): void
+    {
+        foreach ($arguments as $key => $value) {
+            unset($arguments[$key]);
+            $arguments[$prefix . $key] = $value;
+        }
     }
 }
