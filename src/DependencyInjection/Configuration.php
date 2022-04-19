@@ -16,11 +16,15 @@
 
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
+use RM\Bundle\JwtSecurityBundle\Extractor\AuthorizationHeaderTokenExtractor;
+use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
+use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -109,15 +113,26 @@ class Configuration implements ConfigurationInterface
         );
     }
 
-    protected function getTokenExtractorsNode(): NodeDefinition
+    protected function getTokenExtractorsNode(): ArrayNodeDefinition
     {
-        return $this->getServicesNode(
+        $node = $this->getServicesNode(
             'token_extractors',
             TokenExtractorInterface::class,
         );
+
+        $node->requiresAtLeastOneElement();
+        $node->defaultValue(
+            [
+                ['class' => AuthorizationHeaderTokenExtractor::class],
+                ['class' => BodyParameterTokenExtractor::class],
+                ['class' => QueryParameterTokenExtractor::class],
+            ]
+        );
+
+        return $node;
     }
 
-    protected function getServicesNode(string $name, string $instanceOf): NodeDefinition
+    protected function getServicesNode(string $name, string $instanceOf): ArrayNodeDefinition
     {
         $builder = new TreeBuilder($name);
 
