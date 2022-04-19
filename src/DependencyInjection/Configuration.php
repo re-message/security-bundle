@@ -35,7 +35,10 @@ class Configuration implements ConfigurationInterface
         $root->addDefaultsIfNotSet();
 
         $children = $root->children();
+
         $children->append($this->getKeysNode());
+
+        $root->fixXmlConfig('property_validator');
         $children->append($this->getPropertyValidatorsNode());
 
         return $treeBuilder;
