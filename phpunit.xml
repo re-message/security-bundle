@@ -6,6 +6,7 @@
          colors="true"
          convertDeprecationsToExceptions="false"
          bootstrap="vendor/autoload.php"
+         forceCoversAnnotation="true"
 >
     <php>
         <ini name="display_errors" value="1" />
