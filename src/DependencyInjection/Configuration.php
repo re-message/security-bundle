@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
+use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
@@ -43,6 +44,9 @@ class Configuration implements ConfigurationInterface
 
         $root->fixXmlConfig('property_validator');
         $children->append($this->getPropertyValidatorsNode());
+
+        $root->fixXmlConfig('token_extractor');
+        $children->append($this->getTokenExtractorsNode());
 
         return $treeBuilder;
     }
@@ -97,6 +101,14 @@ class Configuration implements ConfigurationInterface
         return $this->getServicesNode(
             'property_validators',
             PropertyValidatorInterface::class,
+        );
+    }
+
+    protected function getTokenExtractorsNode(): NodeDefinition
+    {
+        return $this->getServicesNode(
+            'token_extractors',
+            TokenExtractorInterface::class,
         );
     }
 

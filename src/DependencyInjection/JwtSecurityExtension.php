@@ -56,6 +56,7 @@ class JwtSecurityExtension extends Extension
 
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyValidators($container, $config['property_validators']);
+        $this->registerExtractors($container, $config['token_extractors']);
     }
 
     protected function registerTokenStorage(ContainerBuilder $container, array $config): void
@@ -83,6 +84,20 @@ class JwtSecurityExtension extends Extension
             $definition->setArguments($arguments);
             $definition->setAutowired(true);
             $definition->addTag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR);
+        }
+    }
+
+    protected function registerExtractors(ContainerBuilder $container, array $configs): void
+    {
+        foreach ($configs as $config) {
+            $class = $config['class'];
+            $arguments = $config['arguments'] ?? [];
+            $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
+
+            $definition = $container->register($class);
+            $definition->setArguments($arguments);
+            $definition->setAutowired(true);
+            $definition->addTag(JwtSecurityBundle::TAG_TOKEN_EXTRACTOR);
         }
     }
 
