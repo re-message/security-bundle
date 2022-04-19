@@ -27,6 +27,9 @@ use RM\Standard\Jwt\Validator\ChainValidator;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
 use RM\Standard\Jwt\Validator\ValidatorInterface;
 
+/**
+ * @internal
+ */
 class DependencyInjectionTest extends TestCase
 {
     protected function setUp(): void
