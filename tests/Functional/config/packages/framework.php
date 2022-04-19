@@ -16,7 +16,7 @@
 
 use Symfony\Config\FrameworkConfig;
 
-return static function (FrameworkConfig $config) {
+return static function (FrameworkConfig $config): void {
     $config->test(true);
     $config->secret('test');
 

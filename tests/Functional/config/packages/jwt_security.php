@@ -23,7 +23,7 @@ use RM\Standard\Jwt\Validator\Property\IssuerValidator;
 use RM\Standard\Jwt\Validator\Property\NotBeforeValidator;
 use Symfony\Config\JwtSecurityConfig;
 
-return static function (JwtSecurityConfig $config) {
+return static function (JwtSecurityConfig $config): void {
     $config->tokenStorage()
         ->class(RedisTokenStorage::class)
         ->arguments(['dsn' => 'redis://127.0.0.1'])

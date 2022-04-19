@@ -16,5 +16,5 @@
 
 use Symfony\Config\SecurityConfig;
 
-return static function (SecurityConfig $config) {
+return static function (SecurityConfig $config): void {
 };

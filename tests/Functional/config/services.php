@@ -16,7 +16,7 @@
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (ContainerConfigurator $container) {
+return static function (ContainerConfigurator $container): void {
     $parameters = $container->parameters();
 
     $parameters->set('env(JWT_PUBLIC_KEY)', '%kernel.project_dir%/config/jwt/public.pem');
