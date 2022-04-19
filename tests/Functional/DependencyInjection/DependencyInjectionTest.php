@@ -18,6 +18,10 @@ namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\DependencyInjection;
 
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Tests\Functional\TestCase;
+use RM\Standard\Jwt\Validator\ChainPropertyValidator;
+use RM\Standard\Jwt\Validator\ChainValidator;
+use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
+use RM\Standard\Jwt\Validator\ValidatorInterface;
 
 class DependencyInjectionTest extends TestCase
 {
@@ -39,6 +43,56 @@ class DependencyInjectionTest extends TestCase
 
         $key = $container->getParameter($parameterName);
         self::assertNotEmpty($key);
+    }
+
+    public function testPropertyValidators(): void
+    {
+        $container = self::$kernel->getContainer();
+
+        $validator = $container->get(ValidatorInterface::class);
+        self::assertInstanceOf(ChainValidator::class, $validator);
+
+        $validators = $validator->getValidators();
+        self::assertContainsOnlyInstancesOf(ValidatorInterface::class, $validators);
+
+        $chainPropertyValidator = $this->getInstanceOf($validators, ChainPropertyValidator::class);
+        $propertyValidators = $chainPropertyValidator->getValidators();
+        self::assertContainsOnlyInstancesOf(PropertyValidatorInterface::class, $propertyValidators);
+
+        self::assertCount(5, $propertyValidators);
+    }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $instance
+     *
+     * @return T
+     */
+    protected function getInstanceOf(array $array, string $instance): object
+    {
+        $target = $this->findInstanceOf($array, $instance);
+        self::assertNotNull($target);
+
+        return $target;
+    }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $instance
+     *
+     * @return T|null
+     */
+    protected function findInstanceOf(array $array, string $instance): object|null
+    {
+        foreach ($array as $object) {
+            if (is_a($object, $instance, false)) {
+                return $object;
+            }
+        }
+
+        return null;
     }
 
     public function provideKeyParameters(): iterable
