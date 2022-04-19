@@ -166,6 +166,7 @@ class Configuration implements ConfigurationInterface
         foreach ($input as $key => $value) {
             if (is_numeric($key) || str_starts_with($key, $prefix)) {
                 $arguments[$key] = $value;
+
                 continue;
             }
 
