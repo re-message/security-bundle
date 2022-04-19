@@ -66,6 +66,7 @@ class JwtSecurityExtension extends Extension
 
         $definition = $container->register($class);
         $definition->setArguments($arguments);
+        $definition->setAutowired(true);
 
         $container->setAlias(TokenStorageInterface::class, $class);
     }
@@ -79,6 +80,7 @@ class JwtSecurityExtension extends Extension
 
             $definition = $container->register($class);
             $definition->setArguments($arguments);
+            $definition->setAutowired(true);
             $definition->addTag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR);
         }
     }
