@@ -36,7 +36,7 @@ class Configuration implements ConfigurationInterface
 
         $children = $root->children();
         $children->append($this->getKeysNode());
-        $children->append($this->getValidatorsNode());
+        $children->append($this->getPropertyValidatorsNode());
 
         return $treeBuilder;
     }
@@ -65,20 +65,9 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    protected function getValidatorsNode(): NodeDefinition
-    {
-        $builder = new TreeBuilder('validators');
-
-        $node = $builder->getRootNode();
-        $children = $node->children();
-        $children->append($this->getPropertyValidatorsNode());
-
-        return $node;
-    }
-
     protected function getPropertyValidatorsNode(): NodeDefinition
     {
-        $builder = new TreeBuilder('properties');
+        $builder = new TreeBuilder('property_validators');
 
         $node = $builder->getRootNode();
         $node->performNoDeepMerging();
