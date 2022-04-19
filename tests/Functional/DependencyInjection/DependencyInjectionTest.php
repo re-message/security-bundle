@@ -18,6 +18,8 @@ namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\DependencyInjection;
 
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Tests\Functional\TestCase;
+use RM\Standard\Jwt\Storage\RedisTokenStorage;
+use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\ChainPropertyValidator;
 use RM\Standard\Jwt\Validator\ChainValidator;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
@@ -60,6 +62,14 @@ class DependencyInjectionTest extends TestCase
         self::assertContainsOnlyInstancesOf(PropertyValidatorInterface::class, $propertyValidators);
 
         self::assertCount(5, $propertyValidators);
+    }
+
+    public function testTokenStorage(): void
+    {
+        $container = self::$kernel->getContainer();
+
+        $storage = $container->get(TokenStorageInterface::class);
+        self::assertInstanceOf(RedisTokenStorage::class, $storage);
     }
 
     /**
