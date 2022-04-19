@@ -14,10 +14,7 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\Extractor\AuthorizationHeaderTokenExtractor;
-use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
-use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -44,11 +41,5 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->alias(TokenExtractorInterface::class, ChainTokenExtractor::class)
         ->public()
-    ;
-
-    $services
-        ->set(AuthorizationHeaderTokenExtractor::class)
-        ->set(QueryParameterTokenExtractor::class)
-        ->set(BodyParameterTokenExtractor::class)
     ;
 };
