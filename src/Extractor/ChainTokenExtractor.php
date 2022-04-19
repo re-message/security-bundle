@@ -60,6 +60,11 @@ class ChainTokenExtractor implements TokenExtractorInterface
         return false;
     }
 
+    public function getExtractors(): array
+    {
+        return $this->extractors->toArray();
+    }
+
     private function findExtractor(Request $request): ?TokenExtractorInterface
     {
         foreach ($this->extractors as $extractor) {

@@ -16,6 +16,8 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\DependencyInjection;
 
+use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
+use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Tests\Functional\TestCase;
 use RM\Standard\Jwt\Storage\RedisTokenStorage;
@@ -70,6 +72,19 @@ class DependencyInjectionTest extends TestCase
 
         $storage = $container->get(TokenStorageInterface::class);
         self::assertInstanceOf(RedisTokenStorage::class, $storage);
+    }
+
+    public function testTokenExtractors(): void
+    {
+        $container = self::$kernel->getContainer();
+
+        $extractor = $container->get(TokenExtractorInterface::class);
+        self::assertInstanceOf(ChainTokenExtractor::class, $extractor);
+
+        $extractors = $extractor->getExtractors();
+        self::assertContainsOnlyInstancesOf(TokenExtractorInterface::class, $extractors);
+
+        self::assertCount(1, $extractors);
     }
 
     /**
