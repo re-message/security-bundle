@@ -29,8 +29,6 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
  */
 class Kernel extends BaseKernel
 {
-    private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-
     private ?string $testCase;
 
     public function __construct(string $environment, bool $debug, string $testCase = null)
@@ -72,12 +70,12 @@ class Kernel extends BaseKernel
     {
         $confDir = $this->getProjectDir() . '/config';
 
-        $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/*.php', 'glob');
+        $loader->load($confDir . '/{services}.php', 'glob');
 
         $testCaseDir = implode('/', [$confDir, $this->testCase]);
         if ($this->testCase && file_exists($testCaseDir) && is_dir($testCaseDir)) {
-            $loader->load($testCaseDir . '/*' . self::CONFIG_EXTS, 'glob');
+            $loader->load($testCaseDir . '/*.php', 'glob');
         }
     }
 }
