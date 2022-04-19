@@ -63,7 +63,7 @@ jobs:
 
       - name: Run PHPUnit tests
         run: |
-          php vendor/bin/phpunit \
+          php vendor/bin/simple-phpunit \
           --coverage-text \
           --coverage-html=coverage/phpunit/html \
           --coverage-clover=coverage/phpunit/clover.xml
