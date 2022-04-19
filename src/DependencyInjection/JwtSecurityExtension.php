@@ -66,6 +66,7 @@ class JwtSecurityExtension extends Extension
 
             $definition = $container->register($class);
             $definition->setArguments($arguments);
+            $definition->addTag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR);
         }
     }
 
