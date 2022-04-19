@@ -68,7 +68,8 @@ class JwtSecurityExtension extends Extension
         $definition->setArguments($arguments);
         $definition->setAutowired(true);
 
-        $container->setAlias(TokenStorageInterface::class, $class);
+        $alias = $container->setAlias(TokenStorageInterface::class, $class);
+        $alias->setPublic(true);
     }
 
     protected function registerPropertyValidators(ContainerBuilder $container, array $configs): void
