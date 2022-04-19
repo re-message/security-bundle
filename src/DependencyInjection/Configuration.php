@@ -86,6 +86,7 @@ class Configuration implements ConfigurationInterface
         $this->validateInstanceOf($class, TokenStorageInterface::class);
 
         $arguments = $children->arrayNode('arguments');
+        $arguments->performNoDeepMerging();
         $arguments->ignoreExtraKeys(false);
 
         return $node;
@@ -96,10 +97,7 @@ class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('property_validators');
 
         $node = $builder->getRootNode();
-        $node->performNoDeepMerging();
-
         $prototype = $node->arrayPrototype();
-
         $children = $prototype->children();
 
         $class = $children->scalarNode('class');
@@ -108,6 +106,7 @@ class Configuration implements ConfigurationInterface
         $this->validateInstanceOf($class, PropertyValidatorInterface::class);
 
         $arguments = $children->arrayNode('arguments');
+        $arguments->performNoDeepMerging();
         $arguments->ignoreExtraKeys(false);
 
         return $node;
