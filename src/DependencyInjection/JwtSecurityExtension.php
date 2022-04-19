@@ -22,6 +22,7 @@ use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 
@@ -63,11 +64,8 @@ class JwtSecurityExtension extends Extension
     {
         $class = $config['class'];
         $arguments = $config['arguments'] ?? [];
-        $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
 
-        $definition = $container->register($class);
-        $definition->setArguments($arguments);
-        $definition->setAutowired(true);
+        $this->registerService($container, $class, $arguments);
 
         $alias = $container->setAlias(TokenStorageInterface::class, $class);
         $alias->setPublic(true);
@@ -75,30 +73,48 @@ class JwtSecurityExtension extends Extension
 
     protected function registerPropertyValidators(ContainerBuilder $container, array $configs): void
     {
-        foreach ($configs as $config) {
-            $class = $config['class'];
-            $arguments = $config['arguments'] ?? [];
-            $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
-
-            $definition = $container->register($class);
-            $definition->setArguments($arguments);
-            $definition->setAutowired(true);
-            $definition->addTag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR);
-        }
+        $this->registerTaggedServices(
+            $container,
+            $configs,
+            JwtSecurityBundle::TAG_PROPERTY_VALIDATOR,
+        );
     }
 
     protected function registerExtractors(ContainerBuilder $container, array $configs): void
     {
+        $this->registerTaggedServices(
+            $container,
+            $configs,
+            JwtSecurityBundle::TAG_TOKEN_EXTRACTOR,
+        );
+    }
+
+    protected function registerTaggedServices(
+        ContainerBuilder $container,
+        array $configs,
+        string $tag,
+    ): void {
         foreach ($configs as $config) {
             $class = $config['class'];
             $arguments = $config['arguments'] ?? [];
-            $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
 
-            $definition = $container->register($class);
-            $definition->setArguments($arguments);
-            $definition->setAutowired(true);
-            $definition->addTag(JwtSecurityBundle::TAG_TOKEN_EXTRACTOR);
+            $definition = $this->registerService($container, $class, $arguments);
+            $definition->addTag($tag);
         }
+    }
+
+    protected function registerService(
+        ContainerBuilder $container,
+        string $class,
+        array $arguments = [],
+    ): Definition {
+        $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
+
+        $definition = $container->register($class);
+        $definition->setArguments($arguments);
+        $definition->setAutowired(true);
+
+        return $definition;
     }
 
     protected function prefixKeys(array &$arguments, string $prefix): void
