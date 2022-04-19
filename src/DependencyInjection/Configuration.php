@@ -132,6 +132,9 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * @param class-string $instanceOf
+     */
     protected function getServicesNode(string $name, string $instanceOf): ArrayNodeDefinition
     {
         $builder = new TreeBuilder($name);
@@ -173,6 +176,9 @@ class Configuration implements ConfigurationInterface
         return $arguments;
     }
 
+    /**
+     * @param class-string $class
+     */
     protected function validateInstanceOf(NodeDefinition $node, string $class): void
     {
         $closure = fn (mixed $value): bool => is_string($value) && !is_a($value, $class, true);
