@@ -54,6 +54,8 @@
         "symfony/twig-bridge": "^6.0",
         "twig/twig": "^3.0",
 
+        "predis/predis": "^1.1",
+
         "roave/security-advisories": "dev-latest"
     }
 }
