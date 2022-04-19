@@ -8,7 +8,7 @@ on:
 
 jobs:
   testing:
-    name: Backend testing on PHP 8.1
+    name: Testing on PHP 8.1
     runs-on: ubuntu-latest
 
     steps:
