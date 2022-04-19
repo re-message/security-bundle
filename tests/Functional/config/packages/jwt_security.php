@@ -30,7 +30,6 @@ return static function (JwtSecurityConfig $config) {
 
     $config->propertyValidator()
         ->class(NotBeforeValidator::class)
-        ->arguments(['leeway' => 30])
     ;
 
     $config->propertyValidator()
