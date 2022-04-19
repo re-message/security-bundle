@@ -80,6 +80,7 @@ class Configuration implements ConfigurationInterface
         $children = $prototype->children();
 
         $class = $children->scalarNode('class');
+        $class->isRequired();
         $class->cannotBeEmpty();
         $this->validateInstanceOf($class, PropertyValidatorInterface::class);
 
