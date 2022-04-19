@@ -17,11 +17,6 @@
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Validator\ChainPropertyValidator;
 use RM\Standard\Jwt\Validator\ChainValidator;
-use RM\Standard\Jwt\Validator\Property\ExpirationValidator;
-use RM\Standard\Jwt\Validator\Property\IdentifierValidator;
-use RM\Standard\Jwt\Validator\Property\IssuedAtValidator;
-use RM\Standard\Jwt\Validator\Property\IssuerValidator;
-use RM\Standard\Jwt\Validator\Property\NotBeforeValidator;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
 use RM\Standard\Jwt\Validator\SignatureValidator;
 use RM\Standard\Jwt\Validator\ValidatorInterface;
@@ -56,13 +51,5 @@ return static function (ContainerConfigurator $container): void {
     $services
         ->instanceof(PropertyValidatorInterface::class)
         ->tag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR)
-    ;
-
-    $services
-        ->set(ExpirationValidator::class)
-        ->set(IdentifierValidator::class)
-        ->set(IssuedAtValidator::class)
-        ->set(IssuerValidator::class)
-        ->set(NotBeforeValidator::class)
     ;
 };
