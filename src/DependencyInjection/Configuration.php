@@ -30,6 +30,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    private const ARGUMENT_PREFIX = '$';
+
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(JwtSecurityBundle::NAME);
@@ -92,6 +94,9 @@ class Configuration implements ConfigurationInterface
         $arguments = $children->arrayNode('arguments');
         $arguments->performNoDeepMerging();
         $arguments->ignoreExtraKeys(false);
+        $arguments->beforeNormalization()
+            ->always(fn (array $args) => $this->prefixArguments($args))
+        ;
 
         return $node;
     }
@@ -128,8 +133,29 @@ class Configuration implements ConfigurationInterface
         $arguments = $children->arrayNode('arguments');
         $arguments->performNoDeepMerging();
         $arguments->ignoreExtraKeys(false);
+        $arguments->beforeNormalization()
+            ->always(fn (array $args) => $this->prefixArguments($args))
+        ;
 
         return $node;
+    }
+
+    protected function prefixArguments(array $input): array
+    {
+        $prefix = self::ARGUMENT_PREFIX;
+        $arguments = [];
+
+        foreach ($input as $key => $value) {
+            if (is_numeric($key) || str_starts_with($key, $prefix)) {
+                $arguments[$key] = $value;
+                continue;
+            }
+
+            $prefixed = $prefix . $key;
+            $arguments[$prefixed] = $value;
+        }
+
+        return $arguments;
     }
 
     protected function validateInstanceOf(NodeDefinition $node, string $class): void

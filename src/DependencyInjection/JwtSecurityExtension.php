@@ -31,8 +31,6 @@ use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
  */
 class JwtSecurityExtension extends Extension
 {
-    private const ARGUMENT_PREFIX = '$';
-
     /**
      * @throws Exception
      */
@@ -108,20 +106,10 @@ class JwtSecurityExtension extends Extension
         string $class,
         array $arguments = [],
     ): Definition {
-        $this->prefixKeys($arguments, self::ARGUMENT_PREFIX);
-
         $definition = $container->register($class);
         $definition->setArguments($arguments);
         $definition->setAutowired(true);
 
         return $definition;
-    }
-
-    protected function prefixKeys(array &$arguments, string $prefix): void
-    {
-        foreach ($arguments as $key => $value) {
-            unset($arguments[$key]);
-            $arguments[$prefix . $key] = $value;
-        }
     }
 }
