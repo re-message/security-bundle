@@ -53,9 +53,6 @@ class JwtSecurityExtension extends Extension
             $phpLoader->load('algorithms/hmac.php');
         }
 
-        $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
-        $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
-
         $this->registerKeyResolvers($container, $config['keys']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyValidators($container, $config['property_validators']);

@@ -29,9 +29,6 @@ class JwtSecurityBundle extends Bundle
 {
     public const NAME = 'jwt_security';
 
-    public const PUBLIC_KEY_PARAMETER = JwtSecurityBundle::NAME . '.public_key';
-    public const PRIVATE_KEY_PARAMETER = JwtSecurityBundle::NAME . '.private_key';
-
     public const TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
     public const TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
     public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';

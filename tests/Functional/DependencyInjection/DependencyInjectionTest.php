@@ -18,7 +18,6 @@ namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\DependencyInjection;
 
 use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Tests\Functional\TestCase;
 use RM\Standard\Jwt\Storage\RedisTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
@@ -40,22 +39,6 @@ class DependencyInjectionTest extends TestCase
     {
         parent::setUp();
         self::bootKernel();
-    }
-
-    /**
-     * @dataProvider provideKeyParameters
-     *
-     * @covers Configuration::getKeysNode
-     */
-    public function testKeys(string $parameterName): void
-    {
-        $container = self::$kernel->getContainer();
-
-        $hasKey = $container->hasParameter($parameterName);
-        self::assertTrue($hasKey);
-
-        $key = $container->getParameter($parameterName);
-        self::assertNotEmpty($key);
     }
 
     /**
@@ -139,12 +122,5 @@ class DependencyInjectionTest extends TestCase
         }
 
         return null;
-    }
-
-    public function provideKeyParameters(): iterable
-    {
-        yield 'public' => [JwtSecurityBundle::PUBLIC_KEY_PARAMETER];
-
-        yield 'private' => [JwtSecurityBundle::PRIVATE_KEY_PARAMETER];
     }
 }
