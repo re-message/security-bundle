@@ -19,6 +19,9 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
+use RM\Standard\Jwt\Key\OctetKey;
+use RM\Standard\Jwt\Key\Resolver\DirectKeyResolver;
+use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -53,9 +56,23 @@ class JwtSecurityExtension extends Extension
         $container->setParameter(JwtSecurityBundle::PUBLIC_KEY_PARAMETER, $config['keys']['public']);
         $container->setParameter(JwtSecurityBundle::PRIVATE_KEY_PARAMETER, $config['keys']['private']);
 
+        $this->registerKeyResolvers($container, $config['keys']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
+    }
+
+    protected function registerKeyResolvers(ContainerBuilder $container, array $keys): void
+    {
+        $privateKeyContent = $keys['private'];
+        $privateKey = new OctetKey($privateKeyContent);
+
+        $privateKeyResolverId = JwtSecurityBundle::NAME . '.key_resolver.private';
+        $container->register($privateKeyResolverId, DirectKeyResolver::class)
+            ->setArguments([$privateKey])
+        ;
+
+        $container->setAlias(KeyResolverInterface::class, $privateKeyResolverId);
     }
 
     protected function registerTokenStorage(ContainerBuilder $container, array $config): void
