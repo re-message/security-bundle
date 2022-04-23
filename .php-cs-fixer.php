@@ -1,14 +1,14 @@
 <?php
 /*
- * This file is a part of Relations Messenger Security Bundle.
- * This package is a part of Relations Messenger.
+ * This file is a part of Re Message Security Bundle.
+ * This package is a part of Re Message.
  *
- * @link      https://github.com/relmsg/security-bundle
- * @link      https://dev.relmsg.ru/packages/security-bundle
- * @copyright Copyright (c) 2018-2022 Relations Messenger
- * @author    Oleg Kozlov <h1karo@relmsg.ru>
+ * @link      https://github.com/re-message/security-bundle
+ * @link      https://dev.remessage.ru/packages/security-bundle
+ * @copyright Copyright (c) 2018-2022 Re Message
+ * @author    Oleg Kozlov <h1karo@remessage.ru>
  * @license   Apache License 2.0
- * @license   https://legal.relmsg.ru/licenses/security-bundle
+ * @license   https://legal.remessage.ru/licenses/security-bundle
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,8 +20,8 @@ $finder = PhpCsFixer\Finder::create()
     ->append([__FILE__])
 ;
 
-$namespace = 'Relations Messenger';
-$projectTitle = 'Relations Messenger Security Bundle';
+$namespace = 'Re Message';
+$projectTitle = 'Re Message Security Bundle';
 $projectName = 'security-bundle';
 $currentYear = date('Y');
 
@@ -29,12 +29,12 @@ $header = <<<EOF
     This file is a part of {$projectTitle}.
     This package is a part of {$namespace}.
 
-    @link      https://github.com/relmsg/{$projectName}
-    @link      https://dev.relmsg.ru/packages/{$projectName}
+    @link      https://github.com/re-message/{$projectName}
+    @link      https://dev.remessage.ru/packages/{$projectName}
     @copyright Copyright (c) 2018-{$currentYear} {$namespace}
-    @author    Oleg Kozlov <h1karo@relmsg.ru>
+    @author    Oleg Kozlov <h1karo@remessage.ru>
     @license   Apache License 2.0
-    @license   https://legal.relmsg.ru/licenses/{$projectName}
+    @license   https://legal.remessage.ru/licenses/{$projectName}
 
     For the full copyright and license information, please view the LICENSE
     file that was distributed with this source code.

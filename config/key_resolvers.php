@@ -14,18 +14,18 @@
  * file that was distributed with this source code.
  */
 
-use Symfony\Config\FrameworkConfig;
+use RM\Standard\Jwt\Key\Resolver\DirectKeyResolver;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-return static function (FrameworkConfig $config): void {
-    $config->test(true);
-    $config->secret('test');
+return static function (ContainerConfigurator $container): void {
+    $services = $container->services();
 
-    $config->router()
-        ->utf8(true)
-        ->resource('%kernel.project_dir%/config/routing.php')
+    $defaults = $services->defaults();
+    $defaults
+        ->private()
+        ->autowire()
+        ->autoconfigure()
     ;
 
-    $config->session()
-        ->storageFactoryId('session.storage.factory.mock_file')
-    ;
+    $services->set('', DirectKeyResolver::class);
 };

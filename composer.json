@@ -1,14 +1,13 @@
 {
-    "name": "relmsg/security-bundle",
+    "name": "remessage/security-bundle",
     "description": "Security Bundle via Json Web Token",
     "type": "symfony-bundle",
     "license": "Apache-2.0",
-    "homepage": "https://dev.relmsg.ru/security-bundle",
+    "homepage": "https://dev.remessage.ru/security-bundle",
     "authors": [
         {
             "name": "Oleg Kozlov",
-            "email": "h1karo@relmsg.ru",
-            "homepage": "https://rel.ms/h1karo",
+            "email": "h1karo@remessage.ru",
             "role": "Developer"
         }
     ],
@@ -27,7 +26,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
 
-        "relmsg/json-web-token": "^0.3.0",
+        "remessage/json-web-token": "^0.4.1",
 
         "symfony/framework-bundle": "^6.0",
         "symfony/event-dispatcher": "^6.0",
