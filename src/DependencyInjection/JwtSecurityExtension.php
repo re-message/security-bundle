@@ -28,6 +28,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
@@ -61,12 +62,14 @@ class JwtSecurityExtension extends Extension
 
     protected function registerKeyResolvers(ContainerBuilder $container, array $keys): void
     {
-        $privateKeyContent = $keys['private'];
-        $privateKey = new OctetKey($privateKeyContent);
+        $privateKeyId = JwtSecurityBundle::NAME . '.key.private';
+        $container->register($privateKeyId, OctetKey::class)
+            ->setArguments([$keys['private']])
+        ;
 
         $privateKeyResolverId = JwtSecurityBundle::NAME . '.key_resolver.private';
         $container->register($privateKeyResolverId, DirectKeyResolver::class)
-            ->setArguments([$privateKey])
+            ->setArguments([new Reference($privateKeyId)])
         ;
 
         $container->setAlias(KeyResolverInterface::class, $privateKeyResolverId);
