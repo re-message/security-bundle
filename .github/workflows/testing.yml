@@ -30,7 +30,7 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Get Composer Cache Directory
-        id: composer-cache
+        id: composer-cache-dir
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
@@ -38,7 +38,7 @@ jobs:
         id: composer-cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
