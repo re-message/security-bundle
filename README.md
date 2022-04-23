@@ -1,2 +1,3 @@
-# Json Web Token Security Bundle
-This bundle is a part of Re Message Core Server.
+# Security Bundle
+
+This package provides security workflow based on Json Web Token standards.
