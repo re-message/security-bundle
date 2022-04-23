@@ -51,6 +51,10 @@ return $config
             '@DoctrineAnnotation' => true,
             '@PHP80Migration:risky' => true,
             '@PHP81Migration' => true,
+            'ordered_imports' => [
+                'sort_algorithm' => 'alpha',
+                'imports_order' => ['class', 'function', 'const'],
+            ],
             'declare_strict_types' => false,
             'ordered_class_elements' => false,
             'no_superfluous_phpdoc_tags' => false,
