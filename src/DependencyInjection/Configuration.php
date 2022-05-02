@@ -21,6 +21,7 @@ use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Bundle\JwtSecurityBundle\Key\KeyResource;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
@@ -63,20 +64,22 @@ class Configuration implements ConfigurationInterface
 
         $node = $builder->getRootNode();
         $node->addDefaultsIfNotSet();
+        $node->fixXmlConfig('resource');
 
         $children = $node->children();
 
-        $publicKey = $children->scalarNode('public');
-        $publicKey
-            ->defaultValue('%env(file:resolve:JWT_PUBLIC_KEY)%')
-            ->cannotBeEmpty()
-        ;
+        $resources = $children->arrayNode('resources');
+        $resources->performNoDeepMerging();
 
-        $privateKey = $children->scalarNode('private');
-        $privateKey
-            ->defaultValue('%env(file:resolve:JWT_PRIVATE_KEY)%')
-            ->cannotBeEmpty()
-        ;
+        $prototype = $resources->arrayPrototype();
+        $prototype->ignoreExtraKeys(false);
+
+        $children = $prototype->children();
+
+        $type = $children->enumNode('type');
+        $type->values(KeyResource::caseNames());
+        $type->isRequired();
+        $type->cannotBeEmpty();
 
         return $node;
     }
