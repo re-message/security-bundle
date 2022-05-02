@@ -54,6 +54,8 @@
         "twig/twig": "^3.0",
 
         "predis/predis": "^1.1",
+        "symfony/http-client": "^6.0",
+        "nyholm/psr7": "^1.5",
 
         "roave/security-advisories": "dev-latest"
     }
