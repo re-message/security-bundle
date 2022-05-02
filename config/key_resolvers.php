@@ -14,7 +14,8 @@
  * file that was distributed with this source code.
  */
 
-use RM\Standard\Jwt\Key\Resolver\DirectKeyResolver;
+use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
+use RM\Standard\Jwt\Key\Resolver\StorageKeyResolver;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -27,5 +28,10 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $services->set('', DirectKeyResolver::class);
+    $services->set(StorageKeyResolver::class);
+
+    $services
+        ->alias(KeyResolverInterface::class, StorageKeyResolver::class)
+        ->public()
+    ;
 };
