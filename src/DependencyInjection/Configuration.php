@@ -97,10 +97,10 @@ class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('resources');
 
         $node = $builder->getRootNode();
-        $node->addDefaultsIfNotSet();
         $node->performNoDeepMerging();
 
         $prototype = $node->arrayPrototype();
+        $prototype->addDefaultsIfNotSet();
         $prototype->ignoreExtraKeys(false);
 
         $children = $prototype->children();
