@@ -64,14 +64,43 @@ class Configuration implements ConfigurationInterface
 
         $node = $builder->getRootNode();
         $node->addDefaultsIfNotSet();
-        $node->fixXmlConfig('resource');
 
         $children = $node->children();
 
-        $resources = $children->arrayNode('resources');
-        $resources->performNoDeepMerging();
+        $children->append($this->getKeyLoaderNode());
 
-        $prototype = $resources->arrayPrototype();
+        $node->fixXmlConfig('resource');
+        $children->append($this->getKeyResourcesNode());
+
+        return $node;
+    }
+
+    protected function getKeyLoaderNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('loader');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $lazy = $children->scalarNode('lazy');
+        $lazy->defaultTrue();
+        $lazy->cannotBeEmpty();
+        $lazy->isRequired();
+
+        return $node;
+    }
+
+    protected function getKeyResourcesNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('resources');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+        $node->performNoDeepMerging();
+
+        $prototype = $node->arrayPrototype();
         $prototype->ignoreExtraKeys(false);
 
         $children = $prototype->children();
