@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle;
 
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\AlgorithmPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyLoaderPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyValidatorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\TokenExtractorPass;
@@ -32,6 +33,7 @@ class JwtSecurityBundle extends Bundle
 
     public const SERVICE_PREFIX_RESOURCE = JwtSecurityBundle::NAME . '.resource.';
 
+    public const TAG_ALGORITHM = JwtSecurityBundle::NAME . '.algorithm';
     public const TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
     public const TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
     public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
@@ -39,6 +41,7 @@ class JwtSecurityBundle extends Bundle
 
     public function build(ContainerBuilder $container): void
     {
+        $container->addCompilerPass(new AlgorithmPass(self::TAG_ALGORITHM));
         $container->addCompilerPass(new TokenExtractorPass(self::TAG_TOKEN_EXTRACTOR));
         $container->addCompilerPass(new ValidatorPass(self::TAG_TOKEN_VALIDATOR));
         $container->addCompilerPass(new PropertyValidatorPass(self::TAG_PROPERTY_VALIDATOR));
