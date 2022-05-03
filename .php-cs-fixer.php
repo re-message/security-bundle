@@ -16,6 +16,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__)
+    ->notPath('src/Key/ResourceType.php')
     ->append([__FILE__])
     ->exclude('vendor')
 ;
