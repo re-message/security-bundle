@@ -295,5 +295,4 @@ class Configuration implements ConfigurationInterface
             ->thenInvalid($message)
         ;
     }
-
 }
