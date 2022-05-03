@@ -15,10 +15,10 @@
  */
 
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Standard\Jwt\Algorithm\AlgorithmInterface;
 use RM\Standard\Jwt\Algorithm\AlgorithmManager;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolver;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolverInterface;
-use RM\Standard\Jwt\Algorithm\AlgorithmInterface;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
