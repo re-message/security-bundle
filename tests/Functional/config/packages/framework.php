@@ -28,4 +28,8 @@ return static function (FrameworkConfig $config): void {
     $config->session()
         ->storageFactoryId('session.storage.factory.mock_file')
     ;
+
+    $config->httpClient()
+        ->enabled(true)
+    ;
 };
