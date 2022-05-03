@@ -20,6 +20,7 @@ use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Format\FormatterInterface;
+use RM\Standard\Jwt\Identifier\IdentifierGeneratorInterface;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
@@ -59,6 +60,7 @@ class JwtSecurityExtension extends Extension
         $this->registerFormatter($container, $config['formatter']);
         $this->configureKeyLoader($container, $config['keys']['loader']);
         $this->configureKeyResources($container, $config['keys']['resources']);
+        $this->registerIdentifierGenerator($container, $config['identifier_generator']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyGenerators($container, $config['property_generators']);
         $this->registerPropertyValidators($container, $config['property_validators']);
@@ -115,6 +117,18 @@ class JwtSecurityExtension extends Extension
         return new Reference($resourceId);
     }
 
+    protected function registerIdentifierGenerator(ContainerBuilder $container, array $config): void
+    {
+        $class = $config['class'];
+        $arguments = $config['arguments'] ?? [];
+
+        $this->registerService($container, $class, $arguments);
+
+        $container->setAlias(IdentifierGeneratorInterface::class, $class)
+            ->setPublic(true)
+        ;
+    }
+
     protected function registerTokenStorage(ContainerBuilder $container, array $config): void
     {
         $class = $config['class'];
@@ -122,8 +136,9 @@ class JwtSecurityExtension extends Extension
 
         $this->registerService($container, $class, $arguments);
 
-        $alias = $container->setAlias(TokenStorageInterface::class, $class);
-        $alias->setPublic(true);
+        $container->setAlias(TokenStorageInterface::class, $class)
+            ->setPublic(true)
+        ;
     }
 
     protected function registerPropertyGenerators(ContainerBuilder $container, array $configs): void

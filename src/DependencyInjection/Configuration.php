@@ -25,6 +25,8 @@ use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Format\FormatterInterface;
 use RM\Standard\Jwt\Format\JsonFormatter;
 use RM\Standard\Jwt\Generator\PropertyGeneratorInterface;
+use RM\Standard\Jwt\Identifier\IdentifierGeneratorInterface;
+use RM\Standard\Jwt\Identifier\UniqIdGenerator;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
@@ -61,6 +63,8 @@ class Configuration implements ConfigurationInterface
 
         $root->fixXmlConfig('token_extractor');
         $children->append($this->getTokenExtractorsNode());
+
+        $children->append($this->getIdentifierGeneratorNode());
 
         return $treeBuilder;
     }
@@ -208,6 +212,30 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    private function getIdentifierGeneratorNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('identifier_generator');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $class = $children->scalarNode('class');
+        $class->defaultValue(UniqIdGenerator::class);
+        $class->cannotBeEmpty();
+        $this->validateInstanceOf($class, IdentifierGeneratorInterface::class);
+
+        $arguments = $children->arrayNode('arguments');
+        $arguments->performNoDeepMerging();
+        $arguments->ignoreExtraKeys(false);
+        $arguments->beforeNormalization()
+            ->always(fn (array $args) => $this->prefixArguments($args))
+        ;
+
+        return $node;
+    }
+
     /**
      * @param class-string $instanceOf
      */
@@ -267,4 +295,5 @@ class Configuration implements ConfigurationInterface
             ->thenInvalid($message)
         ;
     }
+
 }
