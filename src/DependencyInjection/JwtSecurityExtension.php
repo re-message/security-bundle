@@ -52,6 +52,7 @@ class JwtSecurityExtension extends Extension
         $phpLoader->load('algorithms.php');
         $phpLoader->load('extractors.php');
         $phpLoader->load('keys.php');
+        $phpLoader->load('commands.php');
         $phpLoader->load('listeners.php');
         $phpLoader->load('serializers.php');
         $phpLoader->load('signers.php');
