@@ -110,6 +110,17 @@ class Configuration implements ConfigurationInterface
         $type->isRequired();
         $type->cannotBeEmpty();
 
+        $prototype->beforeNormalization()
+            ->always(function (array $resource) {
+                $type = $resource['type'];
+                $notType = static fn (string $key) => $key !== 'type';
+                $args = array_filter($resource, $notType, ARRAY_FILTER_USE_KEY);
+                $prefixedArgs = $this->prefixArguments($args);
+
+                return array_merge(['type' => $type], $prefixedArgs);
+            })
+        ;
+
         return $node;
     }
 
