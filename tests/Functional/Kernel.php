@@ -73,9 +73,9 @@ class Kernel extends BaseKernel
         $loader->load($confDir . '/{packages}/*.php', 'glob');
         $loader->load($confDir . '/{services}/*.php', 'glob');
 
-        $testCaseDir = implode('/', [$confDir, $this->testCase]);
-        if ($this->testCase && file_exists($testCaseDir) && is_dir($testCaseDir)) {
-            $loader->load($testCaseDir . '/*.php', 'glob');
+        if ($this->testCase) {
+            $loader->load($confDir . '/{packages}/' . $this->testCase . '/*.php', 'glob');
+            $loader->load($confDir . '/{services}/' . $this->testCase . '/*.php', 'glob');
         }
     }
 }
