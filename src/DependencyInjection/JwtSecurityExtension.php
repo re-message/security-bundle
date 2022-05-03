@@ -22,7 +22,6 @@ use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
-use RM\Standard\Jwt\Key\Resource\ResourceInterface;
 use RM\Standard\Jwt\Key\Resource\Url;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
@@ -30,6 +29,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
@@ -66,24 +66,35 @@ class JwtSecurityExtension extends Extension
         $this->registerTokenExtractors($container, $config['token_extractors']);
     }
 
-    protected function configureKeyResources(ContainerBuilder $container, array $config): void
+    protected function configureKeyResources(ContainerBuilder $container, array $configs): void
     {
         $alias = $container->getAlias(ResourceLoaderInterface::class);
         $loaderDefinition = $container->getDefinition((string) $alias);
-        foreach ($config as $item) {
-            $resource = $this->createKeyResource($item);
-            $loaderDefinition->addMethodCall('pushResource', [$resource]);
+
+        foreach ($configs as $index => $config) {
+            $resourceReference = $this->registerResourceService($container, $index, $config);
+            $loaderDefinition->addMethodCall('pushResource', [$resourceReference]);
         }
     }
 
-    protected function createKeyResource(array $config): ResourceInterface
+    protected function registerResourceService(ContainerBuilder $container, int $index, array $config): Reference
     {
-        $type = ResourceType::from($config['type']);
+        $resourceId = JwtSecurityBundle::SERVICE_PREFIX_RESOURCE . $index;
 
-        return match ($type) {
-            ResourceType::FILE => new File($config['path']),
-            ResourceType::URL => new Url($config['address'], $config['headers'] ?? []),
+        $type = ResourceType::from($config['type']);
+        unset($config['type']);
+
+        $class = match ($type) {
+            ResourceType::FILE => File::class,
+            ResourceType::URL => Url::class,
         };
+
+        $container->register($resourceId, $class)
+            ->setPublic(false)
+            ->setArguments($config)
+        ;
+
+        return new Reference($resourceId);
     }
 
     protected function registerTokenStorage(ContainerBuilder $container, array $config): void
