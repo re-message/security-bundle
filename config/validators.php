@@ -18,6 +18,7 @@ use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Validator\ChainPropertyValidator;
 use RM\Standard\Jwt\Validator\ChainValidator;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
+use RM\Standard\Jwt\Validator\SignatureValidator;
 use RM\Standard\Jwt\Validator\ValidatorInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -43,7 +44,7 @@ return static function (ContainerConfigurator $container): void {
 
     $services
         ->set(ChainValidator::class)
-//        ->set(SignatureValidator::class)
+        ->set(SignatureValidator::class)
         ->set(ChainPropertyValidator::class)
     ;
 
