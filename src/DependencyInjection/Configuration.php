@@ -22,6 +22,7 @@ use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
+use RM\Standard\Jwt\Generator\PropertyGeneratorInterface;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
@@ -48,6 +49,9 @@ class Configuration implements ConfigurationInterface
 
         $children->append($this->getKeysNode());
         $children->append($this->getTokenStorageNode());
+
+        $root->fixXmlConfig('property_generator');
+        $children->append($this->getPropertyGeneratorsNode());
 
         $root->fixXmlConfig('property_validator');
         $children->append($this->getPropertyValidatorsNode());
@@ -146,6 +150,14 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $node;
+    }
+
+    protected function getPropertyGeneratorsNode(): NodeDefinition
+    {
+        return $this->getServicesNode(
+            'property_generators',
+            PropertyGeneratorInterface::class,
+        );
     }
 
     protected function getPropertyValidatorsNode(): NodeDefinition

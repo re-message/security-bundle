@@ -58,6 +58,7 @@ class JwtSecurityExtension extends Extension
         $this->configureKeyLoader($container, $config['keys']['loader']);
         $this->configureKeyResources($container, $config['keys']['resources']);
         $this->registerTokenStorage($container, $config['token_storage']);
+        $this->registerPropertyGenerators($container, $config['property_generators']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
     }
@@ -109,6 +110,15 @@ class JwtSecurityExtension extends Extension
 
         $alias = $container->setAlias(TokenStorageInterface::class, $class);
         $alias->setPublic(true);
+    }
+
+    protected function registerPropertyGenerators(ContainerBuilder $container, array $configs): void
+    {
+        $this->registerTaggedServices(
+            $container,
+            $configs,
+            JwtSecurityBundle::TAG_PROPERTY_GENERATOR,
+        );
     }
 
     protected function registerPropertyValidators(ContainerBuilder $container, array $configs): void
