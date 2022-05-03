@@ -21,7 +21,7 @@ use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
-use RM\Bundle\JwtSecurityBundle\Key\KeyResource;
+use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
@@ -106,7 +106,7 @@ class Configuration implements ConfigurationInterface
         $children = $prototype->children();
 
         $type = $children->enumNode('type');
-        $type->values(KeyResource::caseNames());
+        $type->values(ResourceType::caseNames());
         $type->isRequired();
         $type->cannotBeEmpty();
 

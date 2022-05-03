@@ -18,7 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
-use RM\Bundle\JwtSecurityBundle\Key\KeyResource;
+use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
@@ -78,11 +78,11 @@ class JwtSecurityExtension extends Extension
 
     protected function createKeyResource(array $config): ResourceInterface
     {
-        $type = KeyResource::from($config['type']);
+        $type = ResourceType::from($config['type']);
 
         return match ($type) {
-            KeyResource::FILE => new File($config['path']),
-            KeyResource::URL => new Url($config['address'], $config['headers'] ?? []),
+            ResourceType::FILE => new File($config['path']),
+            ResourceType::URL => new Url($config['address'], $config['headers'] ?? []),
         };
     }
 

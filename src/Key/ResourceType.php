@@ -21,7 +21,7 @@ use RM\Standard\Jwt\Key\Loader\UrlKeyLoader;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
 
-enum KeyResource: string
+enum ResourceType: string
 {
     /**
      * @see File
@@ -41,7 +41,7 @@ enum KeyResource: string
     public static function caseNames(): array
     {
         return array_map(
-            static fn (KeyResource $resource) => $resource->value,
+            static fn (self $resource) => $resource->value,
             static::cases(),
         );
     }
