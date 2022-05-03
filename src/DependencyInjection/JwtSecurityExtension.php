@@ -19,7 +19,6 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
-use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
@@ -49,19 +48,10 @@ class JwtSecurityExtension extends Extension
         $phpLoader = new PhpFileLoader($container, $fileLocator);
 
         $phpLoader->load('algorithms.php');
-        $phpLoader->load('algorithmResolvers.php');
         $phpLoader->load('extractors.php');
-        $phpLoader->load('keyResolvers.php');
-        $phpLoader->load('keyStorages.php');
-        $phpLoader->load('keyLoaders.php');
-        $phpLoader->load('keySetSerializers.php');
-        $phpLoader->load('keyFactories.php');
+        $phpLoader->load('keys.php');
         $phpLoader->load('listeners.php');
         $phpLoader->load('validators.php');
-
-        if (class_exists(HMAC::class)) {
-            $phpLoader->load('algorithms/hmac.php');
-        }
 
         $this->configureKeyLoader($container, $config['keys']['loader']);
         $this->configureKeyResources($container, $config['keys']['resources']);
