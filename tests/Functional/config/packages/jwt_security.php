@@ -16,6 +16,7 @@
 
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
+use RM\Standard\Jwt\Identifier\RandomUuidGenerator;
 use RM\Standard\Jwt\Storage\RedisTokenStorage;
 use RM\Standard\Jwt\Validator\Property\ExpirationValidator;
 use RM\Standard\Jwt\Validator\Property\IdentifierValidator;
@@ -28,6 +29,10 @@ return static function (JwtSecurityConfig $config): void {
     $config->tokenStorage()
         ->class(RedisTokenStorage::class)
         ->arguments(['dsn' => 'redis://127.0.0.1'])
+    ;
+
+    $config->identifierGenerator()
+        ->class(RandomUuidGenerator::class)
     ;
 
     $config->propertyValidator()
