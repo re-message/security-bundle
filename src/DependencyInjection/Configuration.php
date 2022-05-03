@@ -22,6 +22,8 @@ use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
+use RM\Standard\Jwt\Format\FormatterInterface;
+use RM\Standard\Jwt\Format\JsonFormatter;
 use RM\Standard\Jwt\Generator\PropertyGeneratorInterface;
 use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
@@ -47,6 +49,7 @@ class Configuration implements ConfigurationInterface
 
         $children = $root->children();
 
+        $children->append($this->getFormatterNode());
         $children->append($this->getKeysNode());
         $children->append($this->getTokenStorageNode());
 
@@ -60,6 +63,24 @@ class Configuration implements ConfigurationInterface
         $children->append($this->getTokenExtractorsNode());
 
         return $treeBuilder;
+    }
+
+    protected function getFormatterNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('formatter');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $class = $children->scalarNode('class');
+        $class->defaultValue(JsonFormatter::class);
+        $class->isRequired();
+        $class->cannotBeEmpty();
+        $this->validateInstanceOf($class, FormatterInterface::class);
+
+        return $node;
     }
 
     protected function getKeysNode(): NodeDefinition

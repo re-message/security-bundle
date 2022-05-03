@@ -19,6 +19,7 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
+use RM\Standard\Jwt\Format\FormatterInterface;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
@@ -55,12 +56,25 @@ class JwtSecurityExtension extends Extension
         $phpLoader->load('signers.php');
         $phpLoader->load('validators.php');
 
+        $this->registerFormatter($container, $config['formatter']);
         $this->configureKeyLoader($container, $config['keys']['loader']);
         $this->configureKeyResources($container, $config['keys']['resources']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyGenerators($container, $config['property_generators']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
+    }
+
+    protected function registerFormatter(ContainerBuilder $container, array $config): void
+    {
+        $class = $config['class'];
+        if (!$container->has($class)) {
+            $container->register($class);
+        }
+
+        $container->setAlias(FormatterInterface::class, $class)
+            ->setPublic(true)
+        ;
     }
 
     protected function configureKeyLoader(ContainerBuilder $container, array $config): void
