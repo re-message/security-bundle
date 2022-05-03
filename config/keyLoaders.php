@@ -39,6 +39,7 @@ return static function (ContainerConfigurator $container): void {
 
     $services
         ->alias(ResourceLoaderInterface::class, ResourceLoader::class)
+        ->public()
     ;
 
     $services
@@ -54,5 +55,6 @@ return static function (ContainerConfigurator $container): void {
 
     $services
         ->alias(KeyLoaderInterface::class, DelegatingKeyLoader::class)
+        ->public()
     ;
 };
