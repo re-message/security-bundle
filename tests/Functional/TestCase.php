@@ -20,6 +20,7 @@ use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
 
 abstract class TestCase extends WebTestCase
 {
@@ -56,7 +57,10 @@ abstract class TestCase extends WebTestCase
         }
 
         $reflect = new ReflectionClass(static::class);
-        $testCase = str_replace('Test', '', $reflect->getShortName());
+        $className = rtrim($reflect->getShortName(), 'Test');
+
+        $serializer = new CamelCaseToSnakeCaseNameConverter();
+        $testCase = $serializer->normalize($className);
 
         return new static::$class($env, $debug, $testCase);
     }
