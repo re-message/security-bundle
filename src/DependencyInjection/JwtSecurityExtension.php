@@ -23,6 +23,7 @@ use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
+use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -60,10 +61,18 @@ class JwtSecurityExtension extends Extension
             $phpLoader->load('algorithms/hmac.php');
         }
 
+        $this->configureKeyLoader($container, $config['keys']['loader']);
         $this->configureKeyResources($container, $config['keys']['resources']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
+    }
+
+    protected function configureKeyLoader(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition(LoadableKeyStorage::class)
+            ->setArgument('$lazy', $config['lazy'])
+        ;
     }
 
     protected function configureKeyResources(ContainerBuilder $container, array $configs): void
