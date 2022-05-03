@@ -142,7 +142,7 @@ class Configuration implements ConfigurationInterface
         $prototype->beforeNormalization()
             ->always(function (array $resource) {
                 $type = $resource['type'];
-                $notType = static fn (string $key) => $key !== 'type';
+                $notType = static fn (string $key) => 'type' !== $key;
                 $args = array_filter($resource, $notType, ARRAY_FILTER_USE_KEY);
                 $prefixedArgs = $this->prefixArguments($args);
 
