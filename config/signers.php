@@ -42,6 +42,8 @@ return static function (ContainerConfigurator $container): void {
     ;
 
     $services->set(LoggableSigner::class)
+        ->tag('monolog.logger', ['channel' => 'security'])
+        ->tag('monolog.logger', ['channel' => 'jwt_security'])
         ->decorate(SignerInterface::class, priority: -100)
     ;
 
