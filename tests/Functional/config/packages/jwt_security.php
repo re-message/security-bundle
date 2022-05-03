@@ -15,6 +15,7 @@
  */
 
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
+use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Storage\RedisTokenStorage;
 use RM\Standard\Jwt\Validator\Property\ExpirationValidator;
 use RM\Standard\Jwt\Validator\Property\IdentifierValidator;
@@ -54,5 +55,12 @@ return static function (JwtSecurityConfig $config): void {
 
     $config->tokenExtractor()
         ->class(QueryParameterTokenExtractor::class)
+    ;
+
+    $keys = $config->keys();
+
+    $keys->resource()
+        ->type(ResourceType::FILE->value)
+        ->set('path', '%kernel.project_dir%/config/jwt/keys.json')
     ;
 };

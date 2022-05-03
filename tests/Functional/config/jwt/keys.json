@@ -1,0 +1,9 @@
+{
+    "keys": [
+        {
+            "kty": "oct",
+            "k": "lIfPZJ6FVHiBfr0iDzKCzy5hsDj6cMe2",
+            "kid": "895de49e-27a1-402d-8b78-4aa7803d0ae7"
+        }
+    ]
+}
