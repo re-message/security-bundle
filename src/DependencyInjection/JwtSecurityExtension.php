@@ -18,7 +18,12 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Bundle\JwtSecurityBundle\Key\KeyResource;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
+use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
+use RM\Standard\Jwt\Key\Resource\File;
+use RM\Standard\Jwt\Key\Resource\ResourceInterface;
+use RM\Standard\Jwt\Key\Resource\Url;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -55,9 +60,30 @@ class JwtSecurityExtension extends Extension
             $phpLoader->load('algorithms/hmac.php');
         }
 
+        $this->configureKeyResources($container, $config['keys']['resources']);
         $this->registerTokenStorage($container, $config['token_storage']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
+    }
+
+    protected function configureKeyResources(ContainerBuilder $container, array $config): void
+    {
+        $alias = $container->getAlias(ResourceLoaderInterface::class);
+        $loaderDefinition = $container->getDefinition((string) $alias);
+        foreach ($config as $item) {
+            $resource = $this->createKeyResource($item);
+            $loaderDefinition->addMethodCall('pushResource', [$resource]);
+        }
+    }
+
+    protected function createKeyResource(array $config): ResourceInterface
+    {
+        $type = KeyResource::from($config['type']);
+
+        return match ($type) {
+            KeyResource::FILE => new File($config['path']),
+            KeyResource::URL => new Url($config['address'], $config['headers'] ?? []),
+        };
     }
 
     protected function registerTokenStorage(ContainerBuilder $container, array $config): void
