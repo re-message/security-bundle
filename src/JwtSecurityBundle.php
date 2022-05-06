@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle;
 
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\AlgorithmPass;
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyFactoryPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyLoaderPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyGeneratorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyValidatorPass;
@@ -40,6 +41,7 @@ class JwtSecurityBundle extends Bundle
     public const TAG_PROPERTY_GENERATOR = JwtSecurityBundle::NAME . '.property_generator';
     public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
     public const TAG_KEY_LOADER = JwtSecurityBundle::NAME . '.key_loader';
+    public const TAG_KEY_FACTORY = JwtSecurityBundle::NAME . '.key_factory';
 
     public function build(ContainerBuilder $container): void
     {
@@ -49,5 +51,6 @@ class JwtSecurityBundle extends Bundle
         $container->addCompilerPass(new PropertyGeneratorPass(self::TAG_PROPERTY_GENERATOR));
         $container->addCompilerPass(new PropertyValidatorPass(self::TAG_PROPERTY_VALIDATOR));
         $container->addCompilerPass(new KeyLoaderPass(self::TAG_KEY_LOADER));
+        $container->addCompilerPass(new KeyFactoryPass(self::TAG_KEY_FACTORY));
     }
 }

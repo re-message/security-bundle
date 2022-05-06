@@ -14,6 +14,8 @@
  * file that was distributed with this source code.
  */
 
+use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Standard\Jwt\Key\Factory\DelegatingKeyFactory;
 use RM\Standard\Jwt\Key\Factory\KeyFactoryInterface;
 use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
 use RM\Standard\Jwt\Key\Parameter\Factory\ParameterFactory;
@@ -30,17 +32,23 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    // key parameter factory
     $services->set(ParameterFactory::class);
     $services
         ->alias(ParameterFactoryInterface::class, ParameterFactory::class)
         ->public()
     ;
 
-    // key factory
-    $services->set(OctetKeyFactory::class);
+    $services->instanceof(KeyFactoryInterface::class)
+        ->tag(JwtSecurityBundle::TAG_KEY_FACTORY)
+    ;
+
     $services
-        ->alias(KeyFactoryInterface::class, OctetKeyFactory::class)
+        ->set(DelegatingKeyFactory::class)
+        ->set(OctetKeyFactory::class)
+    ;
+
+    $services
+        ->alias(KeyFactoryInterface::class, DelegatingKeyFactory::class)
         ->public()
     ;
 };
