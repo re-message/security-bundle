@@ -14,13 +14,13 @@
  * file that was distributed with this source code.
  */
 
-use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
-use RM\Standard\Jwt\Key\Resolver\StorageKeyResolver;
-use RM\Standard\Jwt\Key\Set\KeySetSerializer;
-use RM\Standard\Jwt\Key\Set\KeySetSerializerInterface;
-use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
-use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
-use RM\Standard\Jwt\Key\Storage\RuntimeKeyStorage;
+use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
+use RM\Standard\Jwt\Key\Loader\DelegatingKeyLoader;
+use RM\Standard\Jwt\Key\Loader\FileKeyLoader;
+use RM\Standard\Jwt\Key\Loader\KeyLoaderInterface;
+use RM\Standard\Jwt\Key\Loader\ResourceLoader;
+use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
+use RM\Standard\Jwt\Key\Loader\UrlKeyLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -33,31 +33,29 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $container->import('keys/factories.php');
-    $container->import('keys/loaders.php');
-
-    // key set serializer
-    $services->set(KeySetSerializer::class);
+    // resource loader
     $services
-        ->alias(KeySetSerializerInterface::class, KeySetSerializer::class)
+        ->set(ResourceLoader::class)
+    ;
+    $services
+        ->alias(ResourceLoaderInterface::class, ResourceLoader::class)
         ->public()
     ;
 
-    // key storages
-    $services->set(RuntimeKeyStorage::class);
-    $services->set(LoadableKeyStorage::class)
-        ->decorate(KeyStorageInterface::class)
+    // key loaders
+    $services
+        ->instanceof(KeyLoaderInterface::class)
+        ->tag(JwtSecurityBundle::TAG_KEY_LOADER)
     ;
 
     $services
-        ->alias(KeyStorageInterface::class, RuntimeKeyStorage::class)
-        ->public()
+        ->set(DelegatingKeyLoader::class)
+        ->set(UrlKeyLoader::class)
+        ->set(FileKeyLoader::class)
     ;
 
-    // key resolvers
-    $services->set(StorageKeyResolver::class);
     $services
-        ->alias(KeyResolverInterface::class, StorageKeyResolver::class)
+        ->alias(KeyLoaderInterface::class, DelegatingKeyLoader::class)
         ->public()
     ;
 };
