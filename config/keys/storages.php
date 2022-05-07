@@ -14,10 +14,10 @@
  * file that was distributed with this source code.
  */
 
-use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
-use RM\Standard\Jwt\Key\Resolver\StorageKeyResolver;
-use RM\Standard\Jwt\Key\Set\KeySetSerializer;
-use RM\Standard\Jwt\Key\Set\KeySetSerializerInterface;
+use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
+use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
+use RM\Standard\Jwt\Key\Storage\RuntimeKeyStorage;
+use RM\Standard\Jwt\Key\Storage\ThumbprintKeyStorage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -30,23 +30,16 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $container->import('keys/factories.php');
-    $container->import('keys/loaders.php');
-    $container->import('keys/storages.php');
-    $container->import('keys/public.php');
-    $container->import('keys/thumbprint.php');
-
-    // key set serializer
-    $services->set(KeySetSerializer::class);
-    $services
-        ->alias(KeySetSerializerInterface::class, KeySetSerializer::class)
-        ->public()
+    $services->set(RuntimeKeyStorage::class);
+    $services->set(LoadableKeyStorage::class)
+        ->decorate(KeyStorageInterface::class)
+    ;
+    $services->set(ThumbprintKeyStorage::class)
+        ->decorate(KeyStorageInterface::class, priority: 100)
     ;
 
-    // key resolvers
-    $services->set(StorageKeyResolver::class);
     $services
-        ->alias(KeyResolverInterface::class, StorageKeyResolver::class)
+        ->alias(KeyStorageInterface::class, RuntimeKeyStorage::class)
         ->public()
     ;
 };
