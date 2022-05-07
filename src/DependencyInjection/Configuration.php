@@ -97,6 +97,7 @@ class Configuration implements ConfigurationInterface
         $children = $node->children();
 
         $children->append($this->getKeyLoaderNode());
+        $children->append($this->getKeyThumbprintNode());
 
         $node->fixXmlConfig('resource');
         $children->append($this->getKeyResourcesNode());
@@ -117,6 +118,25 @@ class Configuration implements ConfigurationInterface
         $lazy->defaultTrue();
         $lazy->cannotBeEmpty();
         $lazy->isRequired();
+
+        return $node;
+    }
+
+    protected function getKeyThumbprintNode(): NodeDefinition
+    {
+        $builder = new TreeBuilder('thumbprint');
+
+        $node = $builder->getRootNode();
+        $node->addDefaultsIfNotSet();
+
+        $children = $node->children();
+
+        $children->enumNode('algorithm')
+            ->values(hash_algos())
+            ->defaultValue('sha256')
+            ->isRequired()
+            ->cannotBeEmpty()
+        ;
 
         return $node;
     }

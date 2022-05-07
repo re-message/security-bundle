@@ -25,6 +25,7 @@ use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
 use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
+use RM\Standard\Jwt\Key\Thumbprint\ThumbprintFactory;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -60,6 +61,7 @@ class JwtSecurityExtension extends Extension
 
         $this->registerFormatter($container, $config['formatter']);
         $this->configureKeyLoader($container, $config['keys']['loader']);
+        $this->configureThumbprint($container, $config['keys']['thumbprint']);
         $this->configureKeyResources($container, $config['keys']['resources']);
         $this->registerIdentifierGenerator($container, $config['identifier_generator']);
         $this->registerTokenStorage($container, $config['token_storage']);
@@ -84,6 +86,13 @@ class JwtSecurityExtension extends Extension
     {
         $container->getDefinition(LoadableKeyStorage::class)
             ->setArgument('$lazy', $config['lazy'])
+        ;
+    }
+
+    protected function configureThumbprint(ContainerBuilder $container, array $config): void
+    {
+        $container->getDefinition(ThumbprintFactory::class)
+            ->setArgument('$algorithm', $config['algorithm'])
         ;
     }
 
