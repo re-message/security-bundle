@@ -20,6 +20,7 @@ use RM\Standard\Jwt\Algorithm\AlgorithmManager;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolver;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolverInterface;
 use RM\Standard\Jwt\Algorithm\Signature\HMAC\HMAC;
+use RM\Standard\Jwt\Algorithm\Signature\RSA\RSA;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -39,6 +40,10 @@ return static function (ContainerConfigurator $container): void {
 
     if (class_exists(HMAC::class)) {
         $container->import('algorithms/hmac.php');
+    }
+
+    if (class_exists(RSA::class)) {
+        $container->import('algorithms/rsa.php');
     }
 
     $services
