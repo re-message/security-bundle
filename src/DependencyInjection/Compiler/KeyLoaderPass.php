@@ -17,34 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Standard\Jwt\Key\Loader\DelegatingKeyLoader;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see DelegatingKeyLoader::pushLoader()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class KeyLoaderPass implements CompilerPassInterface
+class KeyLoaderPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $keyLoaderTag
-    ) {
-    }
-
-    /**
-     * @see DelegatingKeyLoader::pushLoader()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $delegator = $container->findDefinition(DelegatingKeyLoader::class);
-        $services = $container->findTaggedServiceIds($this->keyLoaderTag);
-        foreach ($services as $id => $tags) {
-            if (DelegatingKeyLoader::class === $id) {
-                continue;
-            }
-
-            $loaderDefinition = new Reference($id);
-            $delegator->addMethodCall('pushLoader', [$loaderDefinition]);
-        }
+        parent::__construct($tag, DelegatingKeyLoader::class, 'pushLoader');
     }
 }

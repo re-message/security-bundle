@@ -17,34 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Standard\Jwt\Key\Factory\DelegatingKeyFactory;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see DelegatingKeyFactory::pushFactory()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class KeyFactoryPass implements CompilerPassInterface
+class KeyFactoryPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $keyFactoryTag
-    ) {
-    }
-
-    /**
-     * @see DelegatingKeyFactory::pushFactory()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $delegator = $container->findDefinition(DelegatingKeyFactory::class);
-        $services = $container->findTaggedServiceIds($this->keyFactoryTag);
-        foreach ($services as $id => $tags) {
-            if (DelegatingKeyFactory::class === $id) {
-                continue;
-            }
-
-            $reference = new Reference($id);
-            $delegator->addMethodCall('pushFactory', [$reference]);
-        }
+        parent::__construct($tag, DelegatingKeyFactory::class, 'pushFactory');
     }
 }

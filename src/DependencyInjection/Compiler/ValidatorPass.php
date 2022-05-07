@@ -17,34 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Standard\Jwt\Validator\ChainValidator;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see ChainValidator::pushValidator()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class ValidatorPass implements CompilerPassInterface
+class ValidatorPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $validatorTag
-    ) {
-    }
-
-    /**
-     * @see ChainValidator::pushValidator()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $chainValidatorDefinition = $container->findDefinition(ChainValidator::class);
-        $services = $container->findTaggedServiceIds($this->validatorTag);
-        foreach ($services as $id => $tags) {
-            if (ChainValidator::class === $id) {
-                continue;
-            }
-
-            $validatorDefinition = new Reference($id);
-            $chainValidatorDefinition->addMethodCall('pushValidator', [$validatorDefinition]);
-        }
+        parent::__construct($tag, ChainValidator::class, 'pushValidator');
     }
 }

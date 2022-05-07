@@ -17,30 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Standard\Jwt\Algorithm\AlgorithmManager;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see AlgorithmManager::put()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class AlgorithmPass implements CompilerPassInterface
+class AlgorithmPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $algorithmTag
-    ) {
-    }
-
-    /**
-     * @see AlgorithmManager::put()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $manager = $container->findDefinition(AlgorithmManager::class);
-        $services = $container->findTaggedServiceIds($this->algorithmTag);
-        foreach ($services as $id => $tags) {
-            $algorithmReference = new Reference($id);
-            $manager->addMethodCall('put', [$algorithmReference]);
-        }
+        parent::__construct($tag, AlgorithmManager::class, 'put');
     }
 }

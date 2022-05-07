@@ -17,30 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Standard\Jwt\Signature\GeneratedSigner;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see GeneratedSigner::pushGenerator()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class PropertyGeneratorPass implements CompilerPassInterface
+class PropertyGeneratorPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $propertyGeneratorTag
-    ) {
-    }
-
-    /**
-     * @see GeneratedSigner::pushGenerator()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $signerDefinition = $container->findDefinition(GeneratedSigner::class);
-        $services = $container->findTaggedServiceIds($this->propertyGeneratorTag);
-        foreach ($services as $id => $tags) {
-            $generatorDefinition = new Reference($id);
-            $signerDefinition->addMethodCall('pushGenerator', [$generatorDefinition]);
-        }
+        parent::__construct($tag, GeneratedSigner::class, 'pushGenerator');
     }
 }

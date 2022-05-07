@@ -17,34 +17,16 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
 use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
 
 /**
+ * @see ChainTokenExtractor::pushExtractor()
+ *
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class TokenExtractorPass implements CompilerPassInterface
+class TokenExtractorPass extends DelegatorPass
 {
-    public function __construct(
-        private readonly string $tokenExtractorTag
-    ) {
-    }
-
-    /**
-     * @see ChainTokenExtractor::pushExtractor()
-     */
-    public function process(ContainerBuilder $container): void
+    public function __construct(string $tag)
     {
-        $chainExtractorDefinition = $container->findDefinition(ChainTokenExtractor::class);
-        $services = $container->findTaggedServiceIds($this->tokenExtractorTag);
-        foreach ($services as $id => $tags) {
-            if (ChainTokenExtractor::class === $id) {
-                continue;
-            }
-
-            $extractorDefinition = new Reference($id);
-            $chainExtractorDefinition->addMethodCall('pushExtractor', [$extractorDefinition]);
-        }
+        parent::__construct($tag, ChainTokenExtractor::class, 'pushExtractor');
     }
 }
