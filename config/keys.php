@@ -21,6 +21,7 @@ use RM\Standard\Jwt\Key\Set\KeySetSerializerInterface;
 use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
 use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
 use RM\Standard\Jwt\Key\Storage\RuntimeKeyStorage;
+use RM\Standard\Jwt\Key\Storage\ThumbprintKeyStorage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -48,6 +49,9 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RuntimeKeyStorage::class);
     $services->set(LoadableKeyStorage::class)
         ->decorate(KeyStorageInterface::class)
+    ;
+    $services->set(ThumbprintKeyStorage::class)
+        ->decorate(KeyStorageInterface::class, priority: 100)
     ;
 
     $services
