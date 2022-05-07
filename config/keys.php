@@ -36,6 +36,7 @@ return static function (ContainerConfigurator $container): void {
     $container->import('keys/storages.php');
     $container->import('keys/public.php');
     $container->import('keys/thumbprint.php');
+    $container->import('keys/phpseclib.php');
 
     // key set serializer
     $services->set(KeySetSerializer::class);
