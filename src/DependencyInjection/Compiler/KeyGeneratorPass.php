@@ -14,22 +14,19 @@
  * file that was distributed with this source code.
  */
 
-use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
-use RM\Standard\Jwt\Key\Generator\OctetKeyGenerator;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
-return static function (ContainerConfigurator $container): void {
-    $services = $container->services();
+use RM\Standard\Jwt\Key\Generator\DelegatingKeyGenerator;
 
-    $defaults = $services->defaults();
-    $defaults
-        ->private()
-        ->autowire()
-        ->autoconfigure()
-    ;
-
-    $services
-        ->set(OctetKeyFactory::class)
-        ->set(OctetKeyGenerator::class)
-    ;
-};
+/**
+ * @see DelegatingKeyGenerator::pushGenerator()
+ *
+ * @author Oleg Kozlov <h1karo@remessage.ru>
+ */
+class KeyGeneratorPass extends DelegatorPass
+{
+    public function __construct(string $tag)
+    {
+        parent::__construct($tag, DelegatingKeyGenerator::class, 'pushGenerator');
+    }
+}
