@@ -21,6 +21,7 @@ use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyFactoryPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyLoaderPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyGeneratorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PropertyValidatorPass;
+use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\PublicKeyTransformerPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\TokenExtractorPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\ValidatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,8 +41,10 @@ class JwtSecurityBundle extends Bundle
     public const TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
     public const TAG_PROPERTY_GENERATOR = JwtSecurityBundle::NAME . '.property_generator';
     public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
+
     public const TAG_KEY_LOADER = JwtSecurityBundle::NAME . '.key_loader';
     public const TAG_KEY_FACTORY = JwtSecurityBundle::NAME . '.key_factory';
+    public const TAG_PUBLIC_KEY_TRANSFORMER = JwtSecurityBundle::NAME . '.public_key_transformer';
 
     public function build(ContainerBuilder $container): void
     {
@@ -52,5 +55,6 @@ class JwtSecurityBundle extends Bundle
         $container->addCompilerPass(new PropertyValidatorPass(self::TAG_PROPERTY_VALIDATOR));
         $container->addCompilerPass(new KeyLoaderPass(self::TAG_KEY_LOADER));
         $container->addCompilerPass(new KeyFactoryPass(self::TAG_KEY_FACTORY));
+        $container->addCompilerPass(new PublicKeyTransformerPass(self::TAG_PUBLIC_KEY_TRANSFORMER));
     }
 }

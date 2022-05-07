@@ -35,6 +35,7 @@ return static function (ContainerConfigurator $container): void {
 
     $container->import('keys/factories.php');
     $container->import('keys/loaders.php');
+    $container->import('keys/public.php');
 
     // key set serializer
     $services->set(KeySetSerializer::class);
