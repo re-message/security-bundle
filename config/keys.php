@@ -15,6 +15,7 @@
  */
 
 use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
+use RM\Standard\Jwt\Key\Factory\RsaKeyFactory;
 use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
 use RM\Standard\Jwt\Key\Resolver\StorageKeyResolver;
 use RM\Standard\Jwt\Key\Set\KeySetSerializer;
@@ -54,5 +55,9 @@ return static function (ContainerConfigurator $container): void {
 
     if (class_exists(OctetKeyFactory::class)) {
         $container->import('keys/octet.php');
+    }
+
+    if (class_exists(RsaKeyFactory::class)) {
+        $container->import('keys/rsa.php');
     }
 };
