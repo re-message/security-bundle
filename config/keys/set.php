@@ -14,8 +14,8 @@
  * file that was distributed with this source code.
  */
 
-use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
-use RM\Standard\Jwt\Key\Factory\RsaKeyFactory;
+use RM\Standard\Jwt\Key\Set\KeySetSerializer;
+use RM\Standard\Jwt\Key\Set\KeySetSerializerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -28,21 +28,9 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $container->import('keys/factories.php');
-    $container->import('keys/loaders.php');
-    $container->import('keys/storages.php');
-    $container->import('keys/resolvers.php');
-    $container->import('keys/set.php');
-    $container->import('keys/public.php');
-    $container->import('keys/thumbprint.php');
-    $container->import('keys/phpseclib.php');
-    $container->import('keys/generators.php');
-
-    if (class_exists(OctetKeyFactory::class)) {
-        $container->import('keys/octet.php');
-    }
-
-    if (class_exists(RsaKeyFactory::class)) {
-        $container->import('keys/rsa.php');
-    }
+    $services->set(KeySetSerializer::class);
+    $services
+        ->alias(KeySetSerializerInterface::class, KeySetSerializer::class)
+        ->public()
+    ;
 };
