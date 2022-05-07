@@ -14,6 +14,7 @@
  * file that was distributed with this source code.
  */
 
+use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
 use RM\Standard\Jwt\Key\Resolver\KeyResolverInterface;
 use RM\Standard\Jwt\Key\Resolver\StorageKeyResolver;
 use RM\Standard\Jwt\Key\Set\KeySetSerializer;
@@ -49,4 +50,8 @@ return static function (ContainerConfigurator $container): void {
         ->alias(KeyResolverInterface::class, StorageKeyResolver::class)
         ->public()
     ;
+
+    if (class_exists(OctetKeyFactory::class)) {
+        $container->import('keys/octet.php');
+    }
 };

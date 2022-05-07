@@ -14,11 +14,7 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
-use RM\Standard\Jwt\Key\Factory\DelegatingKeyFactory;
-use RM\Standard\Jwt\Key\Factory\KeyFactoryInterface;
-use RM\Standard\Jwt\Key\Parameter\Factory\ParameterFactory;
-use RM\Standard\Jwt\Key\Parameter\Factory\ParameterFactoryInterface;
+use RM\Standard\Jwt\Key\Factory\OctetKeyFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $container): void {
@@ -31,19 +27,7 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $services->set(ParameterFactory::class);
     $services
-        ->alias(ParameterFactoryInterface::class, ParameterFactory::class)
-        ->public()
-    ;
-
-    $services->instanceof(KeyFactoryInterface::class)
-        ->tag(JwtSecurityBundle::TAG_KEY_FACTORY)
-    ;
-
-    $services->set(DelegatingKeyFactory::class);
-    $services
-        ->alias(KeyFactoryInterface::class, DelegatingKeyFactory::class)
-        ->public()
+        ->set(OctetKeyFactory::class)
     ;
 };
