@@ -23,10 +23,10 @@ return static function (ContainerConfigurator $container): void {
     $defaults
         ->private()
         ->autowire()
+        ->autoconfigure()
     ;
 
     $services
         ->load('RM\\Bundle\\JwtSecurityBundle\\EventListener\\', '../src/EventListener/*')
-        ->tag('kernel.event_listener')
     ;
 };

@@ -18,10 +18,12 @@ namespace RM\Bundle\JwtSecurityBundle\EventListener;
 
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
-#[AsEventListener]
+#[AsEventListener(event: RequestEvent::class)]
+#[AsEventListener(event: ConsoleCommandEvent::class)]
 class KeyLoaderListener
 {
     private bool $enabled = false;
@@ -32,7 +34,7 @@ class KeyLoaderListener
     ) {
     }
 
-    public function __invoke(RequestEvent $event): void
+    public function __invoke(): void
     {
         if (!$this->enabled) {
             return;
