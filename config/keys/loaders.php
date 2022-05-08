@@ -14,7 +14,6 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Key\Loader\DelegatingKeyLoader;
 use RM\Standard\Jwt\Key\Loader\FileKeyLoader;
 use RM\Standard\Jwt\Key\Loader\KeyLoaderInterface;
@@ -43,11 +42,6 @@ return static function (ContainerConfigurator $container): void {
     ;
 
     // key loaders
-    $services
-        ->instanceof(KeyLoaderInterface::class)
-        ->tag(JwtSecurityBundle::TAG_KEY_LOADER)
-    ;
-
     $services
         ->set(DelegatingKeyLoader::class)
         ->set(UrlKeyLoader::class)

@@ -26,6 +26,8 @@ return static function (ContainerConfigurator $container): void {
     $defaults = $services->defaults();
     $defaults
         ->public()
+        ->autowire()
+        ->autoconfigure()
     ;
 
     $services

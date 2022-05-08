@@ -14,8 +14,6 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
-use RM\Standard\Jwt\Algorithm\AlgorithmInterface;
 use RM\Standard\Jwt\Algorithm\AlgorithmManager;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolver;
 use RM\Standard\Jwt\Algorithm\AlgorithmResolverInterface;
@@ -31,11 +29,6 @@ return static function (ContainerConfigurator $container): void {
         ->private()
         ->autowire()
         ->autoconfigure()
-    ;
-
-    $services
-        ->instanceof(AlgorithmInterface::class)
-        ->tag(JwtSecurityBundle::TAG_ALGORITHM)
     ;
 
     if (class_exists(HMAC::class)) {

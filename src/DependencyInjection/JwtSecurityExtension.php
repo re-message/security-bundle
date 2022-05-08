@@ -18,15 +18,24 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
 use RM\Bundle\JwtSecurityBundle\EventListener\KeyLoaderListener;
+use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
+use RM\Standard\Jwt\Algorithm\AlgorithmInterface;
 use RM\Standard\Jwt\Format\FormatterInterface;
 use RM\Standard\Jwt\Identifier\IdentifierGeneratorInterface;
+use RM\Standard\Jwt\Key\Factory\KeyFactoryInterface;
+use RM\Standard\Jwt\Key\Generator\KeyGeneratorInterface;
+use RM\Standard\Jwt\Key\Loader\KeyLoaderInterface;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
 use RM\Standard\Jwt\Key\Thumbprint\ThumbprintFactory;
+use RM\Standard\Jwt\Key\Transformer\PublicKey\PublicKeyTransformerInterface;
+use RM\Standard\Jwt\Key\Transformer\SecLib\SecLibTransformerInterface;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
+use RM\Standard\Jwt\Validator\Property\PropertyValidatorInterface;
+use RM\Standard\Jwt\Validator\ValidatorInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -68,6 +77,37 @@ class JwtSecurityExtension extends Extension
         $this->registerPropertyGenerators($container, $config['property_generators']);
         $this->registerPropertyValidators($container, $config['property_validators']);
         $this->registerTokenExtractors($container, $config['token_extractors']);
+
+        $container->registerForAutoconfiguration(AlgorithmInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_ALGORITHM)
+        ;
+
+        $container->registerForAutoconfiguration(TokenExtractorInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_TOKEN_EXTRACTOR)
+        ;
+
+        $container->registerForAutoconfiguration(KeyFactoryInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_KEY_FACTORY)
+        ;
+        $container->registerForAutoconfiguration(KeyLoaderInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_KEY_LOADER)
+        ;
+        $container->registerForAutoconfiguration(KeyGeneratorInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_KEY_GENERATOR)
+        ;
+        $container->registerForAutoconfiguration(SecLibTransformerInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_SECLIB_TRANSFORMER)
+        ;
+        $container->registerForAutoconfiguration(PublicKeyTransformerInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_PUBLIC_KEY_TRANSFORMER)
+        ;
+
+        $container->registerForAutoconfiguration(ValidatorInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_TOKEN_VALIDATOR)
+        ;
+        $container->registerForAutoconfiguration(PropertyValidatorInterface::class)
+            ->addTag(JwtSecurityBundle::TAG_PROPERTY_VALIDATOR)
+        ;
     }
 
     protected function registerFormatter(ContainerBuilder $container, array $config): void

@@ -28,10 +28,7 @@ return static function (ContainerConfigurator $container): void {
         ->autoconfigure()
     ;
 
-    $services
-        ->set(SignatureCompactSerializer::class)
-    ;
-
+    $services->set(SignatureCompactSerializer::class);
     $services
         ->alias(SignatureSerializerInterface::class, SignatureCompactSerializer::class)
     ;

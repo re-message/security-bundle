@@ -14,7 +14,6 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Key\Transformer\SecLib\DelegatingSecLibTransformer;
 use RM\Standard\Jwt\Key\Transformer\SecLib\SecLibTransformerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -27,10 +26,6 @@ return static function (ContainerConfigurator $container): void {
         ->private()
         ->autowire()
         ->autoconfigure()
-    ;
-
-    $services->instanceof(SecLibTransformerInterface::class)
-        ->tag(JwtSecurityBundle::TAG_SECLIB_TRANSFORMER)
     ;
 
     $services->set(DelegatingSecLibTransformer::class);

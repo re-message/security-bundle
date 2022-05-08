@@ -14,7 +14,6 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Key\Transformer\PublicKey\DelegatingPublicKeyTransformer;
 use RM\Standard\Jwt\Key\Transformer\PublicKey\PublicKeyTransformerInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -27,10 +26,6 @@ return static function (ContainerConfigurator $container): void {
         ->private()
         ->autowire()
         ->autoconfigure()
-    ;
-
-    $services->instanceof(PublicKeyTransformerInterface::class)
-        ->tag(JwtSecurityBundle::TAG_PUBLIC_KEY_TRANSFORMER)
     ;
 
     $services->set(DelegatingPublicKeyTransformer::class);

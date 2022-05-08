@@ -14,7 +14,6 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Standard\Jwt\Key\Generator\DelegatingKeyGenerator;
 use RM\Standard\Jwt\Key\Generator\KeyGeneratorInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -27,10 +26,6 @@ return static function (ContainerConfigurator $container): void {
         ->private()
         ->autowire()
         ->autoconfigure()
-    ;
-
-    $services->instanceof(KeyGeneratorInterface::class)
-        ->tag(JwtSecurityBundle::TAG_KEY_GENERATOR)
     ;
 
     $services->set(DelegatingKeyGenerator::class);
