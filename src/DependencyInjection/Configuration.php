@@ -110,14 +110,7 @@ class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('loader');
 
         $node = $builder->getRootNode();
-        $node->addDefaultsIfNotSet();
-
-        $children = $node->children();
-
-        $lazy = $children->scalarNode('lazy');
-        $lazy->defaultTrue();
-        $lazy->cannotBeEmpty();
-        $lazy->isRequired();
+        $node->canBeDisabled();
 
         return $node;
     }

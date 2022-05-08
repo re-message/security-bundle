@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
+use RM\Bundle\JwtSecurityBundle\EventListener\KeyLoaderListener;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use RM\Bundle\JwtSecurityBundle\Key\ResourceType;
 use RM\Standard\Jwt\Format\FormatterInterface;
@@ -24,7 +25,6 @@ use RM\Standard\Jwt\Identifier\IdentifierGeneratorInterface;
 use RM\Standard\Jwt\Key\Loader\ResourceLoaderInterface;
 use RM\Standard\Jwt\Key\Resource\File;
 use RM\Standard\Jwt\Key\Resource\Url;
-use RM\Standard\Jwt\Key\Storage\LoadableKeyStorage;
 use RM\Standard\Jwt\Key\Thumbprint\ThumbprintFactory;
 use RM\Standard\Jwt\Storage\TokenStorageInterface;
 use Symfony\Component\Config\FileLocator;
@@ -84,9 +84,9 @@ class JwtSecurityExtension extends Extension
 
     protected function configureKeyLoader(ContainerBuilder $container, array $config): void
     {
-        $container->getDefinition(LoadableKeyStorage::class)
-            ->setArgument('$lazy', $config['lazy'])
-        ;
+        $enabled = $config['enabled'];
+        $listener = $container->getDefinition(KeyLoaderListener::class);
+        $listener->addMethodCall('setEnabled', [$enabled]);
     }
 
     protected function configureThumbprint(ContainerBuilder $container, array $config): void
