@@ -16,8 +16,6 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Command;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use RM\Standard\Jwt\Key\KeyInterface;
 use RM\Standard\Jwt\Key\Parameter\Type;
 use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
 use RM\Standard\Jwt\Property\Header\KeyId;
@@ -41,22 +39,16 @@ class KeyListCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $keys = new ArrayCollection($this->storage->toArray());
-
         $table = $io->createTable();
         $table->setStyle('box');
         $table->setHeaders(['Key type', 'Key id']);
 
-        $isType = static fn (KeyInterface $key, string $type) => $type === $key->getType();
         $types = [Type::OCTET, Type::RSA];
-
         foreach ($types as $type) {
             $table->addRow(new TableSeparator());
 
-            $typeFilter = static fn (KeyInterface $key) => $isType($key, $type);
-            $typeKeys = $keys->filter($typeFilter);
-
-            foreach ($typeKeys as $key) {
+            $keys = $this->storage->findByType($type);
+            foreach ($keys as $key) {
                 $id = $key->get(KeyId::NAME)->getValue();
                 $table->addRow([$type, $id]);
             }
