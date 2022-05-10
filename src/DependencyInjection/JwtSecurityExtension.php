@@ -59,6 +59,7 @@ class JwtSecurityExtension extends Extension
         $fileLocator = new FileLocator(__DIR__ . '/../../config');
         $phpLoader = new PhpFileLoader($container, $fileLocator);
 
+        $phpLoader->load('authenticator.php');
         $phpLoader->load('algorithms.php');
         $phpLoader->load('extractors.php');
         $phpLoader->load('keys.php');
