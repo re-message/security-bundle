@@ -14,20 +14,29 @@
  * file that was distributed with this source code.
  */
 
-use RM\Bundle\JwtSecurityBundle\Security\JwtAuthenticator;
-use RM\Bundle\JwtSecurityBundle\Tests\Functional\Provider\SubjectProvider;
-use Symfony\Config\SecurityConfig;
+namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\Entity;
 
-return static function (SecurityConfig $config): void {
-    $config->enableAuthenticatorManager(true);
+use RM\Bundle\JwtSecurityBundle\Entity\AbstractSubject;
 
-    $config->provider('subject')
-        ->id(SubjectProvider::class)
-    ;
+/**
+ * @internal
+ */
+final class Subject extends AbstractSubject
+{
+    private readonly string $id;
 
-    $config->firewall('default')
-        ->pattern('^/')
-        ->stateless(true)
-        ->customAuthenticators([JwtAuthenticator::class])
-    ;
-};
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getRoles(): array
+    {
+        return [];
+    }
+}
