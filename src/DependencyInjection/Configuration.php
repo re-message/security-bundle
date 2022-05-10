@@ -16,6 +16,9 @@
 
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
+use Closure;
+use InvalidArgumentException;
+use ReflectionClass;
 use RM\Bundle\JwtSecurityBundle\Extractor\AuthorizationHeaderTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\QueryParameterTokenExtractor;
@@ -34,6 +37,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
@@ -263,7 +267,9 @@ class Configuration implements ConfigurationInterface
         $class = $children->scalarNode('class');
         $class->isRequired();
         $class->cannotBeEmpty();
-        $this->validateInstanceOf($class, $instanceOf);
+        $class->validate()
+            ->always($this->isInstanceOf($instanceOf))
+        ;
 
         $arguments = $children->arrayNode('arguments');
         $arguments->performNoDeepMerging();
@@ -292,6 +298,37 @@ class Configuration implements ConfigurationInterface
         }
 
         return $arguments;
+    }
+
+    /**
+     * @param class-string $class
+     */
+    protected function isInstanceOf(string $class): Closure
+    {
+        if (!class_exists($class) && !interface_exists($class)) {
+            $message = sprintf('Class %s does not exist.', $class);
+
+            throw new InvalidArgumentException($message);
+        }
+
+        $reflect = new ReflectionClass($class);
+        $namespace = $reflect->getNamespaceName();
+
+        return static function (mixed $value) use ($namespace, $class) {
+            if (class_exists($value) && is_a($value, $class, true)) {
+                return $value;
+            }
+
+            $namespaced = $namespace . '\\' . $value;
+            if (class_exists($namespaced) && is_a($namespaced, $class, true)) {
+                return $namespaced;
+            }
+
+            $type = get_debug_type($value);
+            $message = sprintf('The class must implement %s, got %s.', $class, $type);
+
+            throw new InvalidConfigurationException($message);
+        };
     }
 
     /**
