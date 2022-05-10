@@ -26,8 +26,10 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
+ *
+ * @internal
  */
-class Kernel extends BaseKernel
+final class Kernel extends BaseKernel
 {
     private ?string $testCase;
 
