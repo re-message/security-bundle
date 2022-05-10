@@ -65,7 +65,11 @@ class JwtAuthenticator implements AuthenticatorInterface
             throw new CustomUserMessageAuthenticationException('Token validation failed.', previous: $e);
         }
 
-        $subjectClaim = $token->getPayload()->get(Subject::NAME);
+        $subjectClaim = $token->getPayload()->find(Subject::NAME);
+        if (null === $subjectClaim) {
+            throw new CustomUserMessageAuthenticationException('Token have no subject claim.');
+        }
+
         $subjectBadge = new SubjectBadge($subjectClaim->getValue());
 
         $badges = [];
