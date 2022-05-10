@@ -19,10 +19,11 @@ namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class SecuredController extends AbstractController
 {
-    public function __invoke(UserInterface $user): JsonResponse
+    public function __invoke(#[CurrentUser] UserInterface $user): JsonResponse
     {
         return new JsonResponse(
             [
