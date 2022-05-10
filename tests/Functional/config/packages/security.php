@@ -14,7 +14,15 @@
  * file that was distributed with this source code.
  */
 
+use RM\Bundle\JwtSecurityBundle\Security\JwtAuthenticator;
 use Symfony\Config\SecurityConfig;
 
 return static function (SecurityConfig $config): void {
+    $config->enableAuthenticatorManager(true);
+
+    $config->firewall('default')
+        ->pattern('^/')
+        ->stateless(true)
+        ->customAuthenticators([JwtAuthenticator::class])
+    ;
 };
