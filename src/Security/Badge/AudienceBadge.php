@@ -54,6 +54,11 @@ class AudienceBadge implements BadgeInterface
         return $this->audienceIds;
     }
 
+    public function getAudienceLoader(): ?Closure
+    {
+        return $this->audienceLoader;
+    }
+
     public function setAudienceLoader(callable $audienceLoader): void
     {
         $this->audienceLoader = $audienceLoader(...);
