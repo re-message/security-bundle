@@ -35,7 +35,6 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class JwtAuthenticator implements AuthenticatorInterface
 {
@@ -80,23 +79,15 @@ class JwtAuthenticator implements AuthenticatorInterface
             $badges[] = new AudienceBadge($audienceClaim->getValue());
         }
 
-        return new SelfValidatingPassport($subjectBadge, $badges);
+        return new JwtPassport($subjectBadge, $badges);
     }
 
+    /**
+     * @param JwtPassport $passport
+     */
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
-        /** @var SubjectBadge $subjectBadge */
-        $subjectBadge = $passport->getBadge(SubjectBadge::class);
-        /** @var AudienceBadge|null $audienceBadge */
-        $audienceBadge = $passport->getBadge(AudienceBadge::class);
-        /** @var TokenBadge $tokenBadge */
-        $tokenBadge = $passport->getBadge(TokenBadge::class);
-
-        $subject = $subjectBadge->getSubject();
-        $audiences = $audienceBadge?->getAudiences() ?? [];
-        $token = $tokenBadge->getToken();
-
-        return new JwtToken($subject, $audiences, $token);
+        return new JwtToken($passport->getSubject(), $passport->getAudiences(), $passport->getToken());
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
