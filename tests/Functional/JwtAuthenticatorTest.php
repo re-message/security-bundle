@@ -83,6 +83,6 @@ class JwtAuthenticatorTest extends TestCase
 
         $subject = $token->getSubject();
         self::assertSame($token->getUser(), $subject);
-        self::assertSame($subjectId, $subject->getId());
+        self::assertSame($subjectId, $subject->getIdentifier());
     }
 }

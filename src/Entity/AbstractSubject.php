@@ -20,7 +20,7 @@ abstract class AbstractSubject implements SubjectInterface
 {
     public function getUserIdentifier(): string
     {
-        return $this->getId();
+        return $this->getIdentifier();
     }
 
     public function eraseCredentials(): void

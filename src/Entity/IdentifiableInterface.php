@@ -18,5 +18,5 @@ namespace RM\Bundle\JwtSecurityBundle\Entity;
 
 interface IdentifiableInterface
 {
-    public function getId(): string;
+    public function getIdentifier(): string;
 }
