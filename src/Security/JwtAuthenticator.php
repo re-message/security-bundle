@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Security;
 
+use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RM\Bundle\JwtSecurityBundle\Event\AuthenticationFailureEvent;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
@@ -87,11 +88,14 @@ class JwtAuthenticator implements AuthenticatorInterface
         return new JwtPassport($subjectBadge, $badges);
     }
 
-    /**
-     * @param JwtPassport $passport
-     */
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
+        if (!$passport instanceof JwtPassport) {
+            $message = sprintf('Expects "%s" object, got "%s" object', JwtPassport::class, $passport::class);
+
+            throw new InvalidArgumentException($message);
+        }
+
         return new JwtToken($passport->getSubject(), $passport->getAudiences(), $passport->getToken());
     }
 
