@@ -156,7 +156,11 @@ class Configuration implements ConfigurationInterface
         $type->isRequired();
         $type->cannotBeEmpty();
 
-        $prototype->beforeNormalization()
+        $children->booleanNode('required')
+            ->defaultFalse()
+        ;
+
+        $prototype->validate()
             ->always(function (array $resource) {
                 $type = $resource['type'];
                 $notType = static fn (string $key): bool => 'type' !== $key;

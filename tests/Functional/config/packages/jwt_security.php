@@ -91,6 +91,12 @@ return static function (JwtSecurityConfig $config): void {
 
     $keys->resource()
         ->type(ResourceType::FILE->value)
+        ->required(true)
         ->set('path', '%kernel.project_dir%/config/jwt/keys.json')
+    ;
+
+    $keys->resource()
+        ->type(ResourceType::FILE->value)
+        ->set('path', '%kernel.project_dir%/config/jwt/not-exist.json')
     ;
 };
