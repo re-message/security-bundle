@@ -21,7 +21,7 @@ use RM\Standard\Jwt\Generator\IdentifierGenerator;
 use RM\Standard\Jwt\Generator\IssuedAtGenerator;
 use RM\Standard\Jwt\Generator\IssuerGenerator;
 use RM\Standard\Jwt\Identifier\UniqIdGenerator;
-use RM\Standard\Jwt\Storage\RedisTokenStorage;
+use RM\Standard\Jwt\Storage\RuntimeTokenStorage;
 use RM\Standard\Jwt\Validator\Property\ExpirationValidator;
 use RM\Standard\Jwt\Validator\Property\IdentifierValidator;
 use RM\Standard\Jwt\Validator\Property\IssuedAtValidator;
@@ -31,8 +31,7 @@ use Symfony\Config\JwtSecurityConfig;
 
 return static function (JwtSecurityConfig $config): void {
     $config->tokenStorage()
-        ->class(RedisTokenStorage::class)
-        ->arguments(['dsn' => 'redis://127.0.0.1'])
+        ->class(RuntimeTokenStorage::class)
     ;
 
     $config->identifierGenerator()
