@@ -73,10 +73,6 @@ class AudienceBadge implements BadgeInterface
             return $this->audiences;
         }
 
-        if (null === $this->audienceLoader) {
-            throw new LogicException('No audience loader is configured');
-        }
-
         $audiences = [];
         foreach ($this->audienceIds as $audienceId) {
             $audiences[] = $this->getAudience($audienceId);
@@ -87,6 +83,10 @@ class AudienceBadge implements BadgeInterface
 
     protected function getAudience(string $audienceId): AudienceInterface
     {
+        if (null === $this->audienceLoader) {
+            throw new LogicException('No audience loader is configured');
+        }
+
         $audience = ($this->audienceLoader)($audienceId);
 
         if (null === $audience) {
