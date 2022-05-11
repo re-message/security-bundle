@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Entity;
 
-interface AudienceInterface extends IdentifiableInterface
+interface AudienceInterface
 {
+    public function getAudienceId(): string;
 }

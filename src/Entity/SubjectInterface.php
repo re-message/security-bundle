@@ -18,6 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-interface SubjectInterface extends UserInterface, IdentifiableInterface
+interface SubjectInterface extends UserInterface
 {
+    public function getSubjectId(): string;
 }

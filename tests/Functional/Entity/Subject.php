@@ -30,7 +30,7 @@ final class Subject extends AbstractSubject
         $this->id = $id;
     }
 
-    public function getIdentifier(): string
+    public function getSubjectId(): string
     {
         return $this->id;
     }
