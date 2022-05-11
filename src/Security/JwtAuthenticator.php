@@ -35,6 +35,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use UnexpectedValueException;
 
 class JwtAuthenticator implements AuthenticatorInterface
 {
@@ -54,6 +55,10 @@ class JwtAuthenticator implements AuthenticatorInterface
     public function authenticate(Request $request): Passport
     {
         $rawToken = $this->extractor->extract($request);
+        if (null === $rawToken) {
+            throw new UnexpectedValueException('Unable to extract token.');
+        }
+
         $token = $this->serializer->deserialize($rawToken);
 
         try {
