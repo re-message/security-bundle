@@ -300,9 +300,6 @@ class Configuration implements ConfigurationInterface
         return $arguments;
     }
 
-    /**
-     * @param class-string $class
-     */
     protected function isInstanceOf(string $class): Closure
     {
         if (!class_exists($class) && !interface_exists($class)) {
