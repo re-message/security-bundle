@@ -69,6 +69,7 @@ class KeyGeneratorCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        /** @var null|string $type */
         $type = $input->getArgument('type');
         if (null === $type) {
             $type = $io->choice(
@@ -81,13 +82,15 @@ class KeyGeneratorCommand extends Command
             $input->setArgument('type', $type);
         }
 
+        /** @var null|string $path */
         $path = $input->getArgument('path');
         if (null === $path) {
-            $validator = fn (string $path) => $this->validatePath($path);
+            $validator = fn (string $path): string => $this->validatePath($path);
             $path = $io->ask('Path to the keys file', self::DEFAULT_PATH, $validator);
             $input->setArgument('path', $path);
         }
 
+        /** @var null|string $mode */
         $mode = $input->getArgument('mode');
         if (null === $mode) {
             $mode = $io->choice(
