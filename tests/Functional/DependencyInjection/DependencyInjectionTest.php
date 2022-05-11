@@ -29,9 +29,8 @@ use RM\Standard\Jwt\Validator\ValidatorInterface;
 /**
  * @internal
  *
- * @coversDefaultClass \RM\Bundle\JwtSecurityBundle\DependencyInjection\
- * @covers Configuration
- * @covers JwtSecurityExtension
+ * @covers \RM\Bundle\JwtSecurityBundle\DependencyInjection\Configuration
+ * @covers \RM\Bundle\JwtSecurityBundle\DependencyInjection\JwtSecurityExtension
  */
 class DependencyInjectionTest extends TestCase
 {
@@ -41,10 +40,6 @@ class DependencyInjectionTest extends TestCase
         self::bootKernel();
     }
 
-    /**
-     * @covers Configuration::getPropertyValidatorsNode
-     * @covers JwtSecurityExtension::registerPropertyValidators
-     */
     public function testPropertyValidators(): void
     {
         $container = self::$kernel->getContainer();
@@ -62,10 +57,6 @@ class DependencyInjectionTest extends TestCase
         self::assertCount(5, $propertyValidators);
     }
 
-    /**
-     * @covers Configuration::getTokenStorageNode
-     * @covers JwtSecurityExtension::registerTokenStorage
-     */
     public function testTokenStorage(): void
     {
         $container = self::$kernel->getContainer();
@@ -74,10 +65,6 @@ class DependencyInjectionTest extends TestCase
         self::assertInstanceOf(RedisTokenStorage::class, $storage);
     }
 
-    /**
-     * @covers Configuration::getTokenExtractorsNode
-     * @covers JwtSecurityExtension::registerTokenExtractors
-     */
     public function testTokenExtractors(): void
     {
         $container = self::$kernel->getContainer();
