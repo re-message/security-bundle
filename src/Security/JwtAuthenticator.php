@@ -20,7 +20,6 @@ use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RM\Bundle\JwtSecurityBundle\Event\AuthenticationFailureEvent;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
-use RM\Bundle\JwtSecurityBundle\Response\AuthenticationFailureResponse;
 use RM\Bundle\JwtSecurityBundle\Security\Badge\AudienceBadge;
 use RM\Bundle\JwtSecurityBundle\Security\Badge\SubjectBadge;
 use RM\Bundle\JwtSecurityBundle\Security\Badge\TokenBadge;
@@ -29,6 +28,7 @@ use RM\Standard\Jwt\Property\Payload\Audience;
 use RM\Standard\Jwt\Property\Payload\Subject;
 use RM\Standard\Jwt\Serializer\SignatureSerializerInterface;
 use RM\Standard\Jwt\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -106,7 +106,10 @@ class JwtAuthenticator implements AuthenticatorInterface
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-        $event = new AuthenticationFailureEvent(new AuthenticationFailureResponse($exception->getMessageKey()));
+        $message = strtr($exception->getMessageKey(), $exception->getMessageData());
+        $response = new JsonResponse(['message' => $message], Response::HTTP_UNAUTHORIZED);
+
+        $event = new AuthenticationFailureEvent($response);
         $this->eventDispatcher->dispatch($event);
 
         return $event->getResponse();
