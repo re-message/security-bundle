@@ -69,7 +69,7 @@ class KeyGeneratorCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        /** @var null|string $type */
+        /** @var string|null $type */
         $type = $input->getArgument('type');
         if (null === $type) {
             $type = $io->choice(
@@ -82,7 +82,7 @@ class KeyGeneratorCommand extends Command
             $input->setArgument('type', $type);
         }
 
-        /** @var null|string $path */
+        /** @var string|null $path */
         $path = $input->getArgument('path');
         if (null === $path) {
             $validator = fn (string $path): string => $this->validatePath($path);
@@ -90,7 +90,7 @@ class KeyGeneratorCommand extends Command
             $input->setArgument('path', $path);
         }
 
-        /** @var null|string $mode */
+        /** @var string|null $mode */
         $mode = $input->getArgument('mode');
         if (null === $mode) {
             $mode = $io->choice(

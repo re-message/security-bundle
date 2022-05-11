@@ -98,7 +98,7 @@ class DependencyInjectionTest extends TestCase
      *
      * @param class-string<T> $instance
      *
-     * @return null|T
+     * @return T|null
      */
     protected function findInstanceOf(array $array, string $instance): object|null
     {

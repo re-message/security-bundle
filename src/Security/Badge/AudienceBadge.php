@@ -29,7 +29,7 @@ use UnexpectedValueException;
 class AudienceBadge implements BadgeInterface
 {
     /**
-     * @var null|array<int, AudienceInterface>
+     * @var array<int, AudienceInterface>|null
      */
     private ?array $audiences = null;
 
