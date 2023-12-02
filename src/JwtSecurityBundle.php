@@ -34,21 +34,21 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class JwtSecurityBundle extends Bundle
 {
-    public const NAME = 'jwt_security';
+    final public const string NAME = 'jwt_security';
 
-    public const SERVICE_PREFIX_RESOURCE = JwtSecurityBundle::NAME . '.resource.';
+    final public const string SERVICE_PREFIX_RESOURCE = JwtSecurityBundle::NAME . '.resource.';
 
-    public const TAG_ALGORITHM = JwtSecurityBundle::NAME . '.algorithm';
-    public const TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
-    public const TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
-    public const TAG_PROPERTY_GENERATOR = JwtSecurityBundle::NAME . '.property_generator';
-    public const TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
+    final public const string TAG_ALGORITHM = JwtSecurityBundle::NAME . '.algorithm';
+    final public const string TAG_TOKEN_EXTRACTOR = JwtSecurityBundle::NAME . '.token_extractor';
+    final public const string TAG_TOKEN_VALIDATOR = JwtSecurityBundle::NAME . '.token_validator';
+    final public const string TAG_PROPERTY_GENERATOR = JwtSecurityBundle::NAME . '.property_generator';
+    final public const string TAG_PROPERTY_VALIDATOR = JwtSecurityBundle::NAME . '.property_validator';
 
-    public const TAG_KEY_LOADER = JwtSecurityBundle::NAME . '.key_loader';
-    public const TAG_KEY_FACTORY = JwtSecurityBundle::NAME . '.key_factory';
-    public const TAG_KEY_GENERATOR = JwtSecurityBundle::NAME . '.key_generator';
-    public const TAG_PUBLIC_KEY_TRANSFORMER = JwtSecurityBundle::NAME . '.public_key_transformer';
-    public const TAG_SECLIB_TRANSFORMER = JwtSecurityBundle::NAME . '.seclib_transformer';
+    final public const string TAG_KEY_LOADER = JwtSecurityBundle::NAME . '.key_loader';
+    final public const string TAG_KEY_FACTORY = JwtSecurityBundle::NAME . '.key_factory';
+    final public const string TAG_KEY_GENERATOR = JwtSecurityBundle::NAME . '.key_generator';
+    final public const string TAG_PUBLIC_KEY_TRANSFORMER = JwtSecurityBundle::NAME . '.public_key_transformer';
+    final public const string TAG_SECLIB_TRANSFORMER = JwtSecurityBundle::NAME . '.seclib_transformer';
 
     public function build(ContainerBuilder $container): void
     {

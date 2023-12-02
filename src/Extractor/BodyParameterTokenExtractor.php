@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BodyParameterTokenExtractor implements TokenExtractorInterface
 {
-    public const PARAMETER = 'token';
+    final public const string PARAMETER = 'token';
 
     public function __construct(
         private readonly string $parameterName = self::PARAMETER

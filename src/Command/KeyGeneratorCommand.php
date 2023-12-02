@@ -31,11 +31,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'rm:jwt:keys:generate', description: 'Generate new keys for Json Web Tokens.')]
 class KeyGeneratorCommand extends Command
 {
-    public const DEFAULT_PATH = 'config/jwt/keys.json';
+    final public const string DEFAULT_PATH = 'config/jwt/keys.json';
 
-    public const MODE_SKIP = 'skip';
-    public const MODE_APPEND = 'append';
-    public const MODE_OVERWRITE = 'overwrite';
+    final public const string MODE_SKIP = 'skip';
+    final public const string MODE_APPEND = 'append';
+    final public const string MODE_OVERWRITE = 'overwrite';
 
     public function __construct(
         private readonly KeyGeneratorInterface $generator,

@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class QueryParameterTokenExtractor implements TokenExtractorInterface
 {
-    public const QUERY_PARAMETER = 'token';
+    final public const string QUERY_PARAMETER = 'token';
 
     public function __construct(
         private readonly string $parameterName = self::QUERY_PARAMETER

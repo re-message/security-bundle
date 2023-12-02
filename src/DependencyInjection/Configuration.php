@@ -44,7 +44,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
  */
 class Configuration implements ConfigurationInterface
 {
-    private const ARGUMENT_PREFIX = '$';
+    private const string ARGUMENT_PREFIX = '$';
 
     public function getConfigTreeBuilder(): TreeBuilder
     {

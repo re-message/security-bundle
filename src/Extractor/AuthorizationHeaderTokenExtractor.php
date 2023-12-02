@@ -23,8 +23,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
 {
-    public const HEADER = 'Authorization';
-    public const PREFIX = 'Bearer';
+    final public const string HEADER = 'Authorization';
+    final public const string PREFIX = 'Bearer';
 
     public function __construct(
         private readonly string $name = self::HEADER,
