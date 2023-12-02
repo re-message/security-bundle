@@ -43,7 +43,7 @@ class JwtPassport extends SelfValidatingPassport
 
     public function getUser(): SubjectInterface
     {
-        if (null === $this->user) {
+        if (!isset($this->user)) {
             if (!$this->hasBadge(SubjectBadge::class)) {
                 throw new LogicException('Cannot get the user, no SubjectBadge configured for this passport.');
             }
