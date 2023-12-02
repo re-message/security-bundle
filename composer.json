@@ -58,5 +58,10 @@
         "nyholm/psr7": "^1.5",
 
         "roave/security-advisories": "dev-latest"
+    },
+    "scripts": {
+        "test": "simple-phpunit",
+        "lint": "php-cs-fixer fix --show-progress=dots",
+        "analyze": "psalm"
     }
 }
