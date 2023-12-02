@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.16.0@2897ba636551a8cb61601cc26f6ccfbba6c36591">
+  <file src="src/Command/KeyGeneratorCommand.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Command/KeyListCommand.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/DependencyInjection/Compiler/DelegatorPass.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/DependencyInjection/Configuration.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/DependencyInjection/JwtSecurityExtension.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Entity/AbstractSubject.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Exception/AudienceNotFoundException.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Exception/SubjectNotFoundException.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Extractor/AuthorizationHeaderTokenExtractor.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Extractor/BodyParameterTokenExtractor.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Extractor/ChainTokenExtractor.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Extractor/QueryParameterTokenExtractor.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/JwtSecurityBundle.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Security/Badge/AudienceBadge.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Security/Badge/TokenBadge.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Security/JwtAuthenticator.php">
+    <InvalidAttribute>
+      <code>Override</code>
+      <code>Override</code>
+      <code>Override</code>
+      <code>Override</code>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+  <file src="src/Security/JwtPassport.php">
+    <InvalidAttribute>
+      <code>Override</code>
+    </InvalidAttribute>
+  </file>
+</files>
