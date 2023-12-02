@@ -31,7 +31,7 @@ class QueryParameterTokenExtractor implements TokenExtractorInterface
 
     public function extract(Request $request): ?string
     {
-        return $request->query->get($this->parameterName);
+        return (string) $request->query->get($this->parameterName);
     }
 
     public function supports(Request $request): bool
