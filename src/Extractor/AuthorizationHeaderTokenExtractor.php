@@ -22,14 +22,14 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
+readonly class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
 {
     final public const string HEADER = 'Authorization';
     final public const string PREFIX = 'Bearer';
 
     public function __construct(
-        private readonly string $name = self::HEADER,
-        private readonly string $prefix = self::PREFIX,
+        private string $name = self::HEADER,
+        private string $prefix = self::PREFIX,
     ) {}
 
     #[Override]

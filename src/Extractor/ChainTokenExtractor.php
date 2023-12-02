@@ -24,12 +24,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class ChainTokenExtractor implements TokenExtractorInterface
+readonly class ChainTokenExtractor implements TokenExtractorInterface
 {
     /**
      * @var Collection<int, TokenExtractorInterface>
      */
-    private readonly Collection $extractors;
+    private Collection $extractors;
 
     public function __construct(array $extractors = [])
     {

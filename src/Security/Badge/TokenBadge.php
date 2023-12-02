@@ -20,10 +20,10 @@ use Override;
 use RM\Standard\Jwt\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
-class TokenBadge implements BadgeInterface
+readonly class TokenBadge implements BadgeInterface
 {
     public function __construct(
-        private readonly TokenInterface $token
+        private TokenInterface $token
     ) {}
 
     public function getToken(): TokenInterface

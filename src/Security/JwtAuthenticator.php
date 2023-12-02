@@ -39,13 +39,13 @@ use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use UnexpectedValueException;
 
-class JwtAuthenticator implements AuthenticatorInterface
+readonly class JwtAuthenticator implements AuthenticatorInterface
 {
     public function __construct(
-        private readonly TokenExtractorInterface $extractor,
-        private readonly SignatureSerializerInterface $serializer,
-        private readonly ValidatorInterface $validator,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private TokenExtractorInterface $extractor,
+        private SignatureSerializerInterface $serializer,
+        private ValidatorInterface $validator,
+        private EventDispatcherInterface $eventDispatcher,
     ) {}
 
     #[Override]

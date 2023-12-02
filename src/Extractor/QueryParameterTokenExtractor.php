@@ -22,12 +22,12 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Oleg Kozlov <h1karo@remessage.ru>
  */
-class QueryParameterTokenExtractor implements TokenExtractorInterface
+readonly class QueryParameterTokenExtractor implements TokenExtractorInterface
 {
     final public const string QUERY_PARAMETER = 'token';
 
     public function __construct(
-        private readonly string $parameterName = self::QUERY_PARAMETER
+        private string $parameterName = self::QUERY_PARAMETER
     ) {}
 
     #[Override]
