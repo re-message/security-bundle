@@ -19,8 +19,6 @@ use RM\Bundle\JwtSecurityBundle\Tests\Functional\Provider\SubjectProvider;
 use Symfony\Config\SecurityConfig;
 
 return static function (SecurityConfig $config): void {
-    $config->enableAuthenticatorManager(true);
-
     $config->provider('subject')
         ->id(SubjectProvider::class)
     ;
