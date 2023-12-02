@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional;
 
 use Exception;
+use Override;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
@@ -40,6 +41,7 @@ final class Kernel extends BaseKernel
         $this->testCase = $testCase;
     }
 
+    #[Override]
     public function registerBundles(): iterable
     {
         return [
@@ -50,16 +52,19 @@ final class Kernel extends BaseKernel
         ];
     }
 
+    #[Override]
     public function getProjectDir(): string
     {
         return __DIR__;
     }
 
+    #[Override]
     public function getCacheDir(): string
     {
         return sys_get_temp_dir() . '/JwtSecurityBundle/cache';
     }
 
+    #[Override]
     public function getLogDir(): string
     {
         return sys_get_temp_dir() . '/JwtSecurityBundle/log';
@@ -68,6 +73,7 @@ final class Kernel extends BaseKernel
     /**
      * @throws Exception
      */
+    #[Override]
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $confDir = $this->getProjectDir() . '/config';

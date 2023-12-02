@@ -16,12 +16,16 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Entity;
 
+use Override;
+
 abstract class AbstractSubject implements SubjectInterface
 {
+    #[Override]
     public function getUserIdentifier(): string
     {
         return $this->getSubjectId();
     }
 
+    #[Override]
     public function eraseCredentials(): void {}
 }

@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\Entity;
 
+use Override;
 use RM\Bundle\JwtSecurityBundle\Entity\AbstractSubject;
 
 /**
@@ -30,11 +31,13 @@ final class Subject extends AbstractSubject
         $this->id = $id;
     }
 
+    #[Override]
     public function getSubjectId(): string
     {
         return $this->id;
     }
 
+    #[Override]
     public function getRoles(): array
     {
         return [];

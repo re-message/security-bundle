@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Exception;
+use Override;
 use RM\Bundle\JwtSecurityBundle\EventListener\KeyLoaderListener;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\JwtSecurityBundle;
@@ -51,6 +52,7 @@ class JwtSecurityExtension extends Extension
     /**
      * @throws Exception
      */
+    #[Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();

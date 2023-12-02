@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Command;
 
+use Override;
 use RM\Standard\Jwt\Key\Generator\KeyGeneratorInterface;
 use RM\Standard\Jwt\Key\Parameter\Identifier;
 use RM\Standard\Jwt\Key\Parameter\Type;
@@ -44,6 +45,7 @@ class KeyGeneratorCommand extends Command
         parent::__construct();
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->addArgument(
@@ -65,6 +67,7 @@ class KeyGeneratorCommand extends Command
         );
     }
 
+    #[Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
@@ -123,6 +126,7 @@ class KeyGeneratorCommand extends Command
         return $path;
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

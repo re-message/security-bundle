@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Security\Badge;
 
+use Override;
 use RM\Standard\Jwt\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 
@@ -30,6 +31,7 @@ class TokenBadge implements BadgeInterface
         return $this->token;
     }
 
+    #[Override]
     public function isResolved(): bool
     {
         return true;

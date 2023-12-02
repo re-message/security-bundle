@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Extractor;
 
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,6 +30,7 @@ class BodyParameterTokenExtractor implements TokenExtractorInterface
         private readonly string $parameterName = self::PARAMETER
     ) {}
 
+    #[Override]
     public function extract(Request $request): ?string
     {
         $parameter = $request->request->get($this->parameterName);
@@ -39,6 +41,7 @@ class BodyParameterTokenExtractor implements TokenExtractorInterface
         return (string) $parameter;
     }
 
+    #[Override]
     public function supports(Request $request): bool
     {
         return $request->request->has($this->parameterName);

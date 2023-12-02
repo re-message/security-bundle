@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Extractor;
 
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -31,6 +32,7 @@ class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
         private readonly string $prefix = self::PREFIX,
     ) {}
 
+    #[Override]
     public function extract(Request $request): ?string
     {
         $header = $request->headers->get($this->name);
@@ -51,6 +53,7 @@ class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
         return $parts[1];
     }
 
+    #[Override]
     public function supports(Request $request): bool
     {
         return $request->headers->has($this->name);

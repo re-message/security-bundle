@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle;
 
+use Override;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\AlgorithmPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyFactoryPass;
 use RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler\KeyGeneratorPass;
@@ -50,6 +51,7 @@ class JwtSecurityBundle extends Bundle
     final public const string TAG_PUBLIC_KEY_TRANSFORMER = JwtSecurityBundle::NAME . '.public_key_transformer';
     final public const string TAG_SECLIB_TRANSFORMER = JwtSecurityBundle::NAME . '.seclib_transformer';
 
+    #[Override]
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new AlgorithmPass(self::TAG_ALGORITHM));

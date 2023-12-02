@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional;
 
+use Override;
 use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
@@ -30,6 +31,7 @@ abstract class TestCase extends WebTestCase
         $fs->remove(sys_get_temp_dir() . '/JwtSecurityBundle/');
     }
 
+    #[Override]
     protected static function createKernel(array $options = []): KernelInterface
     {
         if (null === static::$class) {

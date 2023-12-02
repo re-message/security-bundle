@@ -16,12 +16,14 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Exception;
 
+use Override;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class AudienceNotFoundException extends AuthenticationException
 {
     private ?string $id = null;
 
+    #[Override]
     public function getMessageKey(): string
     {
         return 'Audience not found by id.';
@@ -37,6 +39,7 @@ class AudienceNotFoundException extends AuthenticationException
         $this->id = $audienceId;
     }
 
+    #[Override]
     public function getMessageData(): array
     {
         return ['{{ audience }}' => $this->getAudienceId()];

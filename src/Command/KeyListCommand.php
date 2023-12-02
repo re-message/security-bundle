@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Command;
 
+use Override;
 use RM\Standard\Jwt\Key\Parameter\Type;
 use RM\Standard\Jwt\Key\Storage\KeyStorageInterface;
 use RM\Standard\Jwt\Property\Header\KeyId;
@@ -35,6 +36,7 @@ class KeyListCommand extends Command
         parent::__construct();
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

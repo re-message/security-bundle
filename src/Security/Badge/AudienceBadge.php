@@ -18,6 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\Security\Badge;
 
 use Closure;
 use LogicException;
+use Override;
 use RM\Bundle\JwtSecurityBundle\Entity\AudienceInterface;
 use RM\Bundle\JwtSecurityBundle\Exception\AudienceNotFoundException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
@@ -109,6 +110,7 @@ class AudienceBadge implements BadgeInterface
         return $audience;
     }
 
+    #[Override]
     public function isResolved(): bool
     {
         return true;

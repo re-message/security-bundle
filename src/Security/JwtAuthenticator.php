@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\Security;
 
 use InvalidArgumentException;
+use Override;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RM\Bundle\JwtSecurityBundle\Event\AuthenticationFailureEvent;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
@@ -47,11 +48,13 @@ class JwtAuthenticator implements AuthenticatorInterface
         private readonly EventDispatcherInterface $eventDispatcher,
     ) {}
 
+    #[Override]
     public function supports(Request $request): bool
     {
         return $this->extractor->supports($request);
     }
 
+    #[Override]
     public function authenticate(Request $request): Passport
     {
         $rawToken = $this->extractor->extract($request);
@@ -87,6 +90,7 @@ class JwtAuthenticator implements AuthenticatorInterface
         return new JwtPassport($subjectBadge, $badges);
     }
 
+    #[Override]
     public function createToken(Passport $passport, string $firewallName): TokenInterface
     {
         if (!$passport instanceof JwtPassport) {
@@ -98,11 +102,13 @@ class JwtAuthenticator implements AuthenticatorInterface
         return new JwtToken($passport->getSubject(), $passport->getAudiences(), $passport->getToken());
     }
 
+    #[Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return null;
     }
 
+    #[Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $message = strtr($exception->getMessageKey(), $exception->getMessageData());

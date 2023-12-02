@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\DependencyInjection\Compiler;
 
+use Override;
 use RM\Standard\Jwt\Algorithm\AlgorithmManager;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -35,6 +36,7 @@ abstract class DelegatorPass implements CompilerPassInterface
     /**
      * @see AlgorithmManager::put()
      */
+    #[Override]
     public function process(ContainerBuilder $container): void
     {
         $delegator = $container->findDefinition($this->delegatorClass);

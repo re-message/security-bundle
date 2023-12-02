@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional;
 
 use Laminas\Math\Rand;
+use Override;
 use RM\Bundle\JwtSecurityBundle\EventListener\KeyLoaderListener;
 use RM\Bundle\JwtSecurityBundle\Security\JwtToken;
 use RM\Standard\Jwt\Algorithm\Signature\RSA\RS512;
@@ -39,6 +40,7 @@ class JwtAuthenticatorTest extends TestCase
 {
     private KernelBrowser $client;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

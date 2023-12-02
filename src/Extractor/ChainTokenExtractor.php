@@ -18,6 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\Extractor;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Override;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -44,11 +45,13 @@ class ChainTokenExtractor implements TokenExtractorInterface
         $this->extractors->add($extractor);
     }
 
+    #[Override]
     public function extract(Request $request): ?string
     {
         return $this->findExtractor($request)?->extract($request);
     }
 
+    #[Override]
     public function supports(Request $request): bool
     {
         foreach ($this->extractors as $extractor) {

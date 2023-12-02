@@ -17,6 +17,7 @@
 namespace RM\Bundle\JwtSecurityBundle\Security;
 
 use LogicException;
+use Override;
 use RM\Bundle\JwtSecurityBundle\Entity\AudienceInterface;
 use RM\Bundle\JwtSecurityBundle\Entity\SubjectInterface;
 use RM\Bundle\JwtSecurityBundle\Security\Badge\AudienceBadge;
@@ -47,6 +48,7 @@ class JwtPassport extends SelfValidatingPassport
     /**
      * @psalm-suppress MoreSpecificReturnType, LessSpecificReturnStatement
      */
+    #[Override]
     public function getUser(): SubjectInterface
     {
         if (!isset($this->user)) {

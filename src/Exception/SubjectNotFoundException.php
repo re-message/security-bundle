@@ -16,12 +16,14 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Exception;
 
+use Override;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class SubjectNotFoundException extends AuthenticationException
 {
     private ?string $id = null;
 
+    #[Override]
     public function getMessageKey(): string
     {
         return 'Subject not found by id.';
@@ -37,6 +39,7 @@ class SubjectNotFoundException extends AuthenticationException
         $this->id = $subjectId;
     }
 
+    #[Override]
     public function getMessageData(): array
     {
         return ['{{ subject }}' => $this->getSubjectId()];

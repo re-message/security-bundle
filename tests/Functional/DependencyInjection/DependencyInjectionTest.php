@@ -16,6 +16,7 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Tests\Functional\DependencyInjection;
 
+use Override;
 use RM\Bundle\JwtSecurityBundle\Extractor\ChainTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\TokenExtractorInterface;
 use RM\Bundle\JwtSecurityBundle\Tests\Functional\TestCase;
@@ -34,6 +35,7 @@ use RM\Standard\Jwt\Validator\ValidatorInterface;
  */
 class DependencyInjectionTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

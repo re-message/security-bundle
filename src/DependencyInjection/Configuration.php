@@ -18,6 +18,7 @@ namespace RM\Bundle\JwtSecurityBundle\DependencyInjection;
 
 use Closure;
 use InvalidArgumentException;
+use Override;
 use ReflectionClass;
 use RM\Bundle\JwtSecurityBundle\Extractor\AuthorizationHeaderTokenExtractor;
 use RM\Bundle\JwtSecurityBundle\Extractor\BodyParameterTokenExtractor;
@@ -46,6 +47,7 @@ class Configuration implements ConfigurationInterface
 {
     private const string ARGUMENT_PREFIX = '$';
 
+    #[Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(JwtSecurityBundle::NAME);
