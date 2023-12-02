@@ -45,6 +45,7 @@ class AudienceProviderListener
             return;
         }
 
-        $badge->setAudienceLoader([$this->userProvider, 'loadUserByIdentifier']);
+        $loader = $this->userProvider->loadUserByIdentifier(...);
+        $badge->setAudienceLoader($loader);
     }
 }

@@ -45,6 +45,7 @@ class SubjectProviderListener
             return;
         }
 
-        $badge->setUserLoader([$this->userProvider, 'loadUserByIdentifier']);
+        $loader = $this->userProvider->loadUserByIdentifier(...);
+        $badge->setUserLoader($loader);
     }
 }
