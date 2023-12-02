@@ -21,12 +21,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class ResponseEvent extends Event
 {
-    private Response $response;
-
-    public function __construct(Response $response)
-    {
-        $this->response = $response;
-    }
+    public function __construct(
+        private Response $response,
+    ) {}
 
     public function getResponse(): Response
     {

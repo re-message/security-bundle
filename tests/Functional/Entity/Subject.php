@@ -24,12 +24,9 @@ use RM\Bundle\JwtSecurityBundle\Entity\AbstractSubject;
  */
 final class Subject extends AbstractSubject
 {
-    private readonly string $id;
-
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
+    public function __construct(
+        private readonly string $id,
+    ) {}
 
     #[Override]
     public function getSubjectId(): string

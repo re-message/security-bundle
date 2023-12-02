@@ -32,13 +32,12 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
  */
 final class Kernel extends BaseKernel
 {
-    private ?string $testCase;
-
-    public function __construct(string $environment, bool $debug, string $testCase = null)
-    {
+    public function __construct(
+        string $environment,
+        bool $debug,
+        private readonly ?string $testCase = null,
+    ) {
         parent::__construct($environment, $debug);
-
-        $this->testCase = $testCase;
     }
 
     #[Override]
