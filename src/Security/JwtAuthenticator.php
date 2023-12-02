@@ -45,8 +45,7 @@ class JwtAuthenticator implements AuthenticatorInterface
         private readonly SignatureSerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     public function supports(Request $request): bool
     {

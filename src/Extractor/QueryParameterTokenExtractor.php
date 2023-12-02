@@ -27,8 +27,7 @@ class QueryParameterTokenExtractor implements TokenExtractorInterface
 
     public function __construct(
         private readonly string $parameterName = self::QUERY_PARAMETER
-    ) {
-    }
+    ) {}
 
     public function extract(Request $request): ?string
     {

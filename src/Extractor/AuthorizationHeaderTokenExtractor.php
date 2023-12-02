@@ -29,8 +29,7 @@ class AuthorizationHeaderTokenExtractor implements TokenExtractorInterface
     public function __construct(
         private readonly string $name = self::HEADER,
         private readonly string $prefix = self::PREFIX,
-    ) {
-    }
+    ) {}
 
     public function extract(Request $request): ?string
     {

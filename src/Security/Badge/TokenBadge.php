@@ -23,8 +23,7 @@ class TokenBadge implements BadgeInterface
 {
     public function __construct(
         private readonly TokenInterface $token
-    ) {
-    }
+    ) {}
 
     public function getToken(): TokenInterface
     {

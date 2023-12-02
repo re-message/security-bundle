@@ -30,8 +30,7 @@ abstract class DelegatorPass implements CompilerPassInterface
         private readonly string $tag,
         private readonly string $delegatorClass,
         private readonly string $method,
-    ) {
-    }
+    ) {}
 
     /**
      * @see AlgorithmManager::put()

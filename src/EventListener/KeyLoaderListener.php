@@ -31,8 +31,7 @@ class KeyLoaderListener
     public function __construct(
         private readonly KeyStorageInterface $storage,
         private readonly ResourceLoaderInterface $loader,
-    ) {
-    }
+    ) {}
 
     public function __invoke(): void
     {

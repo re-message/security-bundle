@@ -26,8 +26,7 @@ class AudienceProviderListener
 {
     public function __construct(
         private readonly ?UserProviderInterface $userProvider = null,
-    ) {
-    }
+    ) {}
 
     public function __invoke(CheckPassportEvent $event): void
     {

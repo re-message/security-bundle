@@ -27,8 +27,7 @@ class BodyParameterTokenExtractor implements TokenExtractorInterface
 
     public function __construct(
         private readonly string $parameterName = self::PARAMETER
-    ) {
-    }
+    ) {}
 
     public function extract(Request $request): ?string
     {

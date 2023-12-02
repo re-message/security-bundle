@@ -16,6 +16,4 @@
 
 namespace RM\Bundle\JwtSecurityBundle\Event;
 
-class AuthenticationFailureEvent extends ResponseEvent
-{
-}
+class AuthenticationFailureEvent extends ResponseEvent {}
