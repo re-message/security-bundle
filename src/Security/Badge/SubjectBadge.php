@@ -55,7 +55,7 @@ class SubjectBadge extends UserBadge
                 $subject::class
             );
 
-            return throw new UnexpectedValueException($message);
+            throw new UnexpectedValueException($message);
         }
 
         return $subject;

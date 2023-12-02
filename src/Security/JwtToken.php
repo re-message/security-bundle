@@ -58,7 +58,7 @@ class JwtToken extends AbstractToken
                 $subject::class
             );
 
-            return throw new UnexpectedValueException($message);
+            throw new UnexpectedValueException($message);
         }
 
         return $subject;
