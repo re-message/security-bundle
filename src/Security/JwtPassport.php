@@ -26,6 +26,9 @@ use RM\Standard\Jwt\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\BadgeInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor, RedundantPropertyInitializationCheck
+ */
 class JwtPassport extends SelfValidatingPassport
 {
     /**
@@ -41,6 +44,9 @@ class JwtPassport extends SelfValidatingPassport
         return $this->getUser();
     }
 
+    /**
+     * @psalm-suppress MoreSpecificReturnType, LessSpecificReturnStatement
+     */
     public function getUser(): SubjectInterface
     {
         if (!isset($this->user)) {
