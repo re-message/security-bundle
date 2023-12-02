@@ -5,7 +5,7 @@
  *
  * @link      https://github.com/re-message/security-bundle
  * @link      https://dev.remessage.ru/packages/security-bundle
- * @copyright Copyright (c) 2018-2022 Re Message
+ * @copyright Copyright (c) 2018-2023 Re Message
  * @author    Oleg Kozlov <h1karo@remessage.ru>
  * @license   Apache License 2.0
  * @license   https://legal.remessage.ru/licenses/security-bundle
